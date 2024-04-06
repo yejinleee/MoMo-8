@@ -25,6 +25,7 @@ export const DetailPage = () => {
   } = useSelector((state: RootStateType) => state.getPostDetail);
 
   useEffect(() => {
+    if (!id) return;
     const handleAPIError = () => {
       alert('API로부터 데이터를 받아올 때 에러가 발생했습니다.');
       navigate('/');
@@ -32,8 +33,7 @@ export const DetailPage = () => {
     if (error) {
       handleAPIError();
     }
-    void dispatch(getUserInfo());
-    if (!id) return;
+    void dispatch(getUserInfo());//////?
     void dispatch(getPostDetail(id));
   }, [error, navigate, dispatch, id]);
 

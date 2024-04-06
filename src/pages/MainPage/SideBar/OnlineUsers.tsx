@@ -8,8 +8,15 @@ import useForm from '@/hooks/useForm';
 import { theme } from '@/style/theme';
 import { Icon, InputCompound, Profile } from '@common/index';
 import { cloneDeep, isEqual } from 'lodash';
+import { useQuery } from '@tanstack/react-query';
 
 export const OnlineUsers = () => {
+  const {data,isLoading} = useQuery({
+    queryKey:['onlineusersquery'],
+    queryFn: async () => await getApi<IUser[]>('/users/get-users')
+  })
+  console.log(data, isLoading)
+ // --------
   const dispatch = useDispatch();
   const { allUsers, isLoading: isAllUsersLoading } = useSelector(
     (state) => state.allUsers,
