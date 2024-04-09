@@ -9,7 +9,7 @@ export const MainPage = () => {
     <StSideMarginWrapper>
       <StMainWrapper>
         <StMainSide>
-          {/* <OnlineUsers></OnlineUsers> */}
+          <OnlineUsers></OnlineUsers>
           <SearchBox></SearchBox>
         </StMainSide>
         <StMainArea>
