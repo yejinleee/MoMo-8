@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import { MouseEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from '@/_redux/hooks';
 import { ILike, IPost, IPostTitleCustom, IUser } from '@/api/_types/apiModels';
 import { deleteApiJWT, getApi, postApiJWT } from '@/api/apis';
 import { createNotification } from '@/api/createNotification';
@@ -12,6 +11,7 @@ import { Icon, Profile, Tag } from '@common/index';
 interface ICardData {
   cardData: IPost;
   handleCardClick: (cardId: string) => void;
+  userId? : string;
 }
 
 const statusValue = {
@@ -20,11 +20,10 @@ const statusValue = {
   Closed: '모임 종료',
 };
 
-export const Card = ({ cardData, handleCardClick }: ICardData) => {
+export const Card = ({ cardData, handleCardClick,userId }: ICardData) => {
   const parsedTitle: IPostTitleCustom = parseTitle(cardData.title);
   const [user, setUser] = useState<IUser | void>();
   const navigate = useNavigate();
-  const userInfo = useSelector((state) => state.userInfo.user);
   const { likes, _id: cardId, author: postAuthor } = cardData;
   const { postTitle, status, tags, meetDate, author } = parsedTitle;
 
@@ -36,7 +35,7 @@ export const Card = ({ cardData, handleCardClick }: ICardData) => {
 
   let isLiked = '';
   likes?.forEach((each) => {
-    if (typeof each !== 'string' && each.user === userInfo?._id) {
+    if (typeof each !== 'string' && each.user === userId) {
       isLiked = each._id;
     }
   });
@@ -59,7 +58,7 @@ export const Card = ({ cardData, handleCardClick }: ICardData) => {
 
   const handleIconClick = async (event: MouseEvent<HTMLElement>) => {
     event.stopPropagation();
-    if (!userInfo) {
+    if (!userId) {
       if (confirm('로그인이 필요한 서비스입니다.')) {
         navigate('/login');
       }

@@ -1,32 +1,15 @@
 import styled from '@emotion/styled';
-import { useEffect } from 'react';
 import { MainArea } from './CardsArea/MainArea';
 import { OnlineUsers } from './SideBar/OnlineUsers';
 import { SearchBox } from './SideBar/SearchBox';
-import { useDispatch } from '@/_redux/hooks';
-import { getUserInfo } from '@/_redux/slices/userSlice';
 import { StSideMarginWrapper } from '@/style/StSideMarginWrapper';
-import { useQuery } from '@tanstack/react-query';
-import { getApiJWT } from '@/api/apis';
-import { IUser } from '@/api/_types/apiModels';
 
 export const MainPage = () => {
-  console.log("ㅡ먀ㅜ메인")
-  const fn = async() =>{
-    console.log("????")
-    return await getApiJWT<IUser>('/auth-user')
-  }
-  const {data : userInfoData, isFetching} = useQuery({
-    queryKey : ['userInfo'],
-    queryFn: fn
-  })
-  console.log(userInfoData,isFetching)
-
   return (
     <StSideMarginWrapper>
       <StMainWrapper>
         <StMainSide>
-          <OnlineUsers></OnlineUsers>
+          {/* <OnlineUsers></OnlineUsers> */}
           <SearchBox></SearchBox>
         </StMainSide>
         <StMainArea>
