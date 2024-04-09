@@ -6,12 +6,22 @@ import { SearchBox } from './SideBar/SearchBox';
 import { useDispatch } from '@/_redux/hooks';
 import { getUserInfo } from '@/_redux/slices/userSlice';
 import { StSideMarginWrapper } from '@/style/StSideMarginWrapper';
+import { useQuery } from '@tanstack/react-query';
+import { getApiJWT } from '@/api/apis';
+import { IUser } from '@/api/_types/apiModels';
 
 export const MainPage = () => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    void dispatch(getUserInfo());
-  }, []);
+  console.log("ㅡ먀ㅜ메인")
+  const fn = async() =>{
+    console.log("????")
+    return await getApiJWT<IUser>('/auth-user')
+  }
+  const {data : userInfoData, isFetching} = useQuery({
+    queryKey : ['userInfo'],
+    queryFn: fn
+  })
+  console.log(userInfoData,isFetching)
+
   return (
     <StSideMarginWrapper>
       <StMainWrapper>
@@ -20,7 +30,7 @@ export const MainPage = () => {
           <SearchBox></SearchBox>
         </StMainSide>
         <StMainArea>
-          <MainArea></MainArea>
+          <MainArea />
         </StMainArea>
       </StMainWrapper>
     </StSideMarginWrapper>

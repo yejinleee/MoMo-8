@@ -4,20 +4,34 @@ import { useNavigate } from 'react-router-dom';
 import { CreateMeetingModal } from '../Modal/CreateMeetingModal';
 import { unscheduledChannelId } from '../channelId';
 import { StSpinnerWrapper } from '../mainPageStyled.ts';
-import { useSelector } from '@/_redux/hooks';
-import { IPost } from '@/api/_types/apiModels';
-import { getApi } from '@/api/apis';
+import { IPost, IUser } from '@/api/_types/apiModels';
+import { getApi, getApiJWT } from '@/api/apis';
 import useAxios from '@/api/useAxios';
 import { Card, Icon, Spinner } from '@common/index.ts';
+import { useQuery } from '@tanstack/react-query';
+import { useSelector } from '@/_redux/hooks.ts';
 
 export const UnsheduledCards = () => {
+  console.log("언스")
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { response, error, isLoading } = useAxios<IPost[]>(() =>
     getApi(`/posts/channel/${unscheduledChannelId}`),
   );
+  const fn = async() =>{
+    console.log("!!")
+    return await getApiJWT<IUser>('/auth-user')
+  }
   const navigate = useNavigate();
-  const userInfo = useSelector((state) => state.userInfo.user);
+  // const userInfo = useSelector((state) => state.userInfo.user);
+  const {data} = useQuery({
+    queryKey : ['userInfo'],
+    queryFn : fn,
+    throwOnError: true,
+  })
+  const userInfo = data?.data;
+  
   const handleModalOpen = () => {
     if (!userInfo) {
       const isMoveLogin = confirm('로그인이 필요한 서비스입니다.');
@@ -42,6 +56,7 @@ export const UnsheduledCards = () => {
                   key={idx}
                   cardData={post}
                   handleCardClick={(cardId) => navigate(`/details/${cardId}`)}
+                  userId = {userInfo?._id}
                 />
               );
             })}
@@ -85,3 +100,4 @@ const StAddWrapper = styled.button`
     transform: translateY(-6%);
   }
 `;
+
