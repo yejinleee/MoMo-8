@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CreateMeetingModal } from '../Modal/CreateMeetingModal';
-import { unscheduledChannelId } from '../channelId';
+import { CreateMeetingModal } from '../Modal/CreateMeetingModal.tsx';
+import { unscheduledChannelId } from '../channelId.ts';
 import { StSpinnerWrapper } from '../mainPageStyled.ts';
 // import { IPost } from '@/api/_types/apiModels';
 // import { getApi } from '@/api/apis';
@@ -10,7 +10,7 @@ import { StSpinnerWrapper } from '../mainPageStyled.ts';
 import { Card, Icon, Spinner } from '@common/index.ts';
 import { useUnscheduledCards, useUserInfo } from '@/hooks/queryHooks.ts';
 
-export const UnsheduledCards = () => {
+export const UnscheduledCards = () => {
   const { data } = useUserInfo();
   const userInfo = data?.data;
   
