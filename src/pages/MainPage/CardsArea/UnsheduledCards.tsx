@@ -4,23 +4,28 @@ import { useNavigate } from 'react-router-dom';
 import { CreateMeetingModal } from '../Modal/CreateMeetingModal';
 import { unscheduledChannelId } from '../channelId';
 import { StSpinnerWrapper } from '../mainPageStyled.ts';
-import { IPost } from '@/api/_types/apiModels';
-import { getApi } from '@/api/apis';
-import useAxios from '@/api/useAxios';
+// import { IPost } from '@/api/_types/apiModels';
+// import { getApi } from '@/api/apis';
+// import useAxios from '@/api/useAxios';
 import { Card, Icon, Spinner } from '@common/index.ts';
-import { useUserInfo } from '@/hooks/queryHooks.ts';
+import { useUnscheduledCards, useUserInfo } from '@/hooks/queryHooks.ts';
 
 export const UnsheduledCards = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const { response, error, isLoading } = useAxios<IPost[]>(() =>
-    getApi(`/posts/channel/${unscheduledChannelId}`),
-  );
-
-  const navigate = useNavigate();
-  // const userInfo = useSelector((state) => state.userInfo.user);
-  const {data} = useUserInfo();
+  const { data } = useUserInfo();
   const userInfo = data?.data;
+  
+  const navigate = useNavigate();
+  
+  // const { response, error, isLoading } = useAxios<IPost[]>(() =>
+    // getApi(`/posts/channel/${unscheduledChannelId}`),
+  // );
+  
+  const {data:cardData, isError, isFetched, isFetching } = useUnscheduledCards(unscheduledChannelId);
+  console.log('isFetching:', isFetching, 'isFetched : ', isFetched, 'cardData : ', cardData);
+  
+  const response = cardData?.data;
+  
+  const [isModalOpen, setIsModalOpen] = useState(false);
   
   const handleModalOpen = () => {
     if (!userInfo) {
@@ -32,13 +37,13 @@ export const UnsheduledCards = () => {
 
   return (
     <>
-      {isLoading ? (
+      {!isFetched ? (
         <StSpinnerWrapper>
           <Spinner size={50} />
         </StSpinnerWrapper>
       ) : (
         <StCardsWrapper>
-          {!error &&
+          {!isError &&
             response &&
             response.map((post, idx) => {
               return (

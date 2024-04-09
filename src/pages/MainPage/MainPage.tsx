@@ -3,8 +3,11 @@ import { MainArea } from './CardsArea/MainArea';
 import { OnlineUsers } from './SideBar/OnlineUsers';
 import { SearchBox } from './SideBar/SearchBox';
 import { StSideMarginWrapper } from '@/style/StSideMarginWrapper';
+import { useUserInfo } from '@/hooks/queryHooks';
 
 export const MainPage = () => {
+  useUserInfo();
+  
   return (
     <StSideMarginWrapper>
       <StMainWrapper>
