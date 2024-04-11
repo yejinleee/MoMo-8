@@ -10,6 +10,13 @@ import { StSpinnerWrapper } from '../mainPageStyled.ts';
 import { Card, Icon, Spinner } from '@common/index.ts';
 import { useUnscheduledCards, useUserInfo } from '@/hooks/queryHooks.ts';
 
+export const FallbackUI = () =>{
+  return (
+    <StSpinnerWrapper>
+          <Spinner size={50} />
+        </StSpinnerWrapper>
+  )
+}
 export const UnscheduledCards = () => {
   const { data } = useUserInfo();
   const userInfo = data?.data;
@@ -47,12 +54,12 @@ export const UnscheduledCards = () => {
             response &&
             response.map((post, idx) => {
               return (
-                <Card
-                  key={idx}
-                  cardData={post}
-                  handleCardClick={(cardId) => navigate(`/details/${cardId}`)}
-                  userId = {userInfo?._id}
-                />
+                  <Card
+                    key={idx}
+                    cardData={post}
+                    handleCardClick={(cardId) => navigate(`/details/${cardId}`)}
+                    userId = {userInfo?._id}
+                  />
               );
             })}
           <StAddWrapper onClick={handleModalOpen}>

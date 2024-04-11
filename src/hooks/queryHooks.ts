@@ -1,6 +1,6 @@
 import { IPost, IUser } from "@/api/_types/apiModels";
 import { getApi, getApiJWT } from "@/api/apis";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 
 export const useUserInfo = () => {
   return useQuery({
@@ -15,10 +15,21 @@ export const useUserInfo = () => {
 };
 
 export const useUnscheduledCards = (unscheduledChannelId: string) => {
-  return useQuery({
+  return useSuspenseQuery({
     queryKey: ['unscheduledCards'],
     queryFn: async ()=>{
       return await getApi<IPost[]>(`/posts/channel/${unscheduledChannelId}`)
+    },
+  })
+}
+
+export const useMyJoinCards = (id: string | undefined) => {
+  if(!id) console.error('user 정보가 없습니다!');
+
+  return useQuery({
+    queryKey: ['myJoinCards'],
+    queryFn: async ()=> {
+      return await getApi(`/users/${id}`)
     },
   })
 }
