@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { MyCards } from './MyCards';
 import { MyJoinCards } from './MyJoinCards';
@@ -96,17 +96,13 @@ export const ProfilePage = () => {
             />
           )}
         </StProfileContainer>
-        {tabNumber === 1 ? (
-          <MyCards />
-        ) : tabNumber === 2 ? (
-          <MyJoinCards />
-        ) : tabNumber === 3 ? (
-          <MyLikesCards />
-        ) : tabNumber === 4 ? (
-          <UserCards userId={id || ''} />
-        ) : (
-          <UserJoinCards userId={id || ''} />
-        )}
+        <Suspense fallback="...lolo">
+          {tabNumber === 1 &&  <MyCards />}
+          {tabNumber === 2 &&  <MyJoinCards />}
+          {tabNumber === 3 &&  <MyLikesCards />}
+          {tabNumber === 4 &&  <UserCards userId={id || ''} />}
+          {tabNumber === 5 &&  <UserJoinCards userId={id || ''} />}
+        </Suspense>
       </StProfileWrapper>
     </StSideMarginWrapper>
   );

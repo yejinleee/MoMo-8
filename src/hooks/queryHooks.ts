@@ -25,11 +25,21 @@ export const useUnscheduledCards = (unscheduledChannelId: string) => {
 
 export const useMyJoinCards = (id: string | undefined) => {
   if(!id) console.error('user 정보가 없습니다!');
-
   return useQuery({
     queryKey: ['myJoinCards'],
     queryFn: async ()=> {
       return await getApi(`/users/${id}`)
     },
+  })
+}
+
+export const usePostsAuthor = <T>(userId: string | undefined) => {
+  if(!userId) console.error('user 정보가 없습니다!');
+  return useSuspenseQuery({
+    queryKey: [`posts/${userId}`],
+    queryFn: async ()=> {
+      return await getApi<T>(`/posts/author/${userId}`)
+    },
+    staleTime: Infinity,
   })
 }
