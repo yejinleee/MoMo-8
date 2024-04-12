@@ -10,6 +10,8 @@ import { EditProfilePage } from './pages/ProfilePage/EditProfilePage';
 import { ProfilePage } from './pages/ProfilePage/ProfilePage';
 import { SignUpPage } from './pages/SignupPage/SignupPage';
 import { Header } from '@common/index';
+import { Suspense } from 'react';
+import { FallbackUI } from './pages/MainPage/CardsArea/UnscheduledCards';
 
 const preventLoginLoader = () => {
   const {
@@ -45,7 +47,10 @@ export const router = createBrowserRouter([
           },
           {
             path: '/profile/:id',
-            element: <ProfilePage />,
+            element: (
+            <Suspense fallback={<FallbackUI />}>
+              <ProfilePage />
+            </Suspense>),
           },
           {
             path: '/editProfile',
