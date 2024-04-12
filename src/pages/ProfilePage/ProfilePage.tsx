@@ -10,9 +10,11 @@ import { UserJoinCards } from './UserJoinCards';
 import { useDispatch, useSelector } from '@/_redux/hooks';
 import { getUserInfo } from '@/_redux/slices/userSlice';
 import { IUser } from '@/api/_types/apiModels';
-import { getApi } from '@/api/apis';
+// import { getApi } from '@/api/apis';
 import { StSideMarginWrapper } from '@/style/StSideMarginWrapper';
 import { Button, Profile } from '@common/index';
+import { FallbackUI } from '../MainPage/CardsArea/UnscheduledCards';
+import { useUsersInfo } from '@/hooks/queryHooks';
 
 export const ProfilePage = () => {
   const { id } = useParams();
@@ -24,15 +26,18 @@ export const ProfilePage = () => {
 
   useEffect(() => {
     void dispatch(getUserInfo());
-  }, [tabNumber]);
+  }, []);
 
-  const [response, setResponse] = useState<IUser>({} as IUser);
-  const fetching = async () => {
-    const res = await getApi<IUser>(`/users/${id}`);
-    setResponse(res.data);
-  };
+  // const [response, setResponse] = useState<IUser>({} as IUser);
+  // const fetching = async () => {
+  //   const res = await getApi<IUser>(`/users/${id}`);
+  //   setResponse(res.data);
+  // };
+  const {data} = useUsersInfo<IUser>(id)
+  const response = data?.data  /// '?' 
+
   useEffect(() => {
-    void fetching();
+    // void fetching();
     if (userInfo?._id !== id) {
       setTabNumber(4);
     } else {
@@ -46,7 +51,7 @@ export const ProfilePage = () => {
         <StModalBackdrop onClick={() => setModalOpen(false)}>
           <StModalContent onClick={(e) => e.stopPropagation()}>
             <img
-              src={response.image || ''}
+              src={response?.image || ''}
               alt="Zoomed"
               style={{ maxWidth: '100%', height: 'auto' }}
             />
@@ -96,7 +101,7 @@ export const ProfilePage = () => {
             />
           )}
         </StProfileContainer>
-        <Suspense fallback="...lolo">
+        <Suspense fallback={<FallbackUI/>}>
           {tabNumber === 1 &&  <MyCards />}
           {tabNumber === 2 &&  <MyJoinCards />}
           {tabNumber === 3 &&  <MyLikesCards />}
