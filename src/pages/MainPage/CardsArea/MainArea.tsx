@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
-import { Suspense, useState } from 'react';
+import {  useState } from 'react';
 import { ScheduledMain } from './ScheduledMain';
-import { FallbackUI, UnscheduledCards } from './UnscheduledCards';
+import { UnscheduledCards } from './UnscheduledCards';
 import { getItem, setItem } from '@/utils/storage';
 import { Tab } from '@common/index';
 
@@ -30,9 +30,9 @@ export const MainArea = () => {
         />
       </StTabsWrapper>
       <div>
-        <Suspense fallback={<FallbackUI />}>
+        {/* <Suspense fallback={<FallbackUI />}> */}
         {getItem('mainTab', 0) === 0 ? <UnscheduledCards /> : <ScheduledMain />}
-        </Suspense>
+        {/* </Suspense> */}
       </div>
     </div>
   );

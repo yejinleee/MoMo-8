@@ -1,15 +1,14 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CreateMeetingModal } from '../Modal/CreateMeetingModal.tsx';
-import { unscheduledChannelId } from '../channelId.ts';
+import { CreateMeetingModal } from '../Modal/CreateMeetingModal';
+import { unscheduledChannelId } from '../channelId';
 import { StSpinnerWrapper } from '../mainPageStyled.ts';
-// import { IPost } from '@/api/_types/apiModels';
-// import { getApi } from '@/api/apis';
-// import useAxios from '@/api/useAxios';
+import { useSelector } from '@/_redux/hooks';
+import { IPost } from '@/api/_types/apiModels';
+import { getApi } from '@/api/apis';
+import useAxios from '@/api/useAxios';
 import { Card, Icon, Spinner } from '@common/index.ts';
-import { useUnscheduledCards, useUserInfo } from '@/hooks/queryHooks.ts';
-
 export const FallbackUI = () =>{
   return (
     <StSpinnerWrapper>
@@ -18,22 +17,13 @@ export const FallbackUI = () =>{
   )
 }
 export const UnscheduledCards = () => {
-  const { data } = useUserInfo();
-  const userInfo = data?.data;
-  
-  const navigate = useNavigate();
-  
-  // const { response, error, isLoading } = useAxios<IPost[]>(() =>
-    // getApi(`/posts/channel/${unscheduledChannelId}`),
-  // );
-  
-  const {data:cardData, isError, isFetched, isFetching } = useUnscheduledCards(unscheduledChannelId);
-  console.log('isFetching:', isFetching, 'isFetched : ', isFetched, 'cardData : ', cardData);
-  
-  const response = cardData?.data;
-  
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
+
+  const { response, error, isLoading } = useAxios<IPost[]>(() =>
+    getApi(`/posts/channel/${unscheduledChannelId}`),
+  );
+  const navigate = useNavigate();
+  const userInfo = useSelector((state) => state.userInfo.user);
   const handleModalOpen = () => {
     if (!userInfo) {
       const isMoveLogin = confirm('로그인이 필요한 서비스입니다.');
@@ -44,22 +34,21 @@ export const UnscheduledCards = () => {
 
   return (
     <>
-      {!isFetched ? (
+      {isLoading ? (
         <StSpinnerWrapper>
           <Spinner size={50} />
         </StSpinnerWrapper>
       ) : (
         <StCardsWrapper>
-          {!isError &&
+          {!error &&
             response &&
             response.map((post, idx) => {
               return (
-                  <Card
-                    key={idx}
-                    cardData={post}
-                    handleCardClick={(cardId) => navigate(`/details/${cardId}`)}
-                    userId = {userInfo?._id}
-                  />
+                <Card
+                  key={idx}
+                  cardData={post}
+                  handleCardClick={(cardId) => navigate(`/details/${cardId}`)}
+                />
               );
             })}
           <StAddWrapper onClick={handleModalOpen}>
@@ -102,4 +91,3 @@ const StAddWrapper = styled.button`
     transform: translateY(-6%);
   }
 `;
-

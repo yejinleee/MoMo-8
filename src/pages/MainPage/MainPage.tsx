@@ -3,11 +3,16 @@ import { MainArea } from './CardsArea/MainArea';
 import { OnlineUsers } from './SideBar/OnlineUsers';
 import { SearchBox } from './SideBar/SearchBox';
 import { StSideMarginWrapper } from '@/style/StSideMarginWrapper';
-import { useUserInfo } from '@/hooks/queryHooks';
+import { useEffect } from 'react';
+import { getUserInfo } from '@/_redux/slices/userSlice';
+import { useDispatch } from '@/_redux/hooks';
 
 export const MainPage = () => {
-  useUserInfo();
-  
+  const dispatch = useDispatch();
+  useEffect(() => {
+    void dispatch(getUserInfo());
+  }, []);  
+
   return (
     <StSideMarginWrapper>
       <StMainWrapper>
