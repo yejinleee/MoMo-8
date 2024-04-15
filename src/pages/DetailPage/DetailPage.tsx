@@ -50,7 +50,7 @@ export const DetailPage = () => {
     response && (
       <StSideMarginWrapper>
         <StDetailContainer>
-          <DetailMeetDescription response={response} />
+          <DetailMeetDescription postId={id!}/>
           <DetailTab
             pageNumber={pageNumber}
             handlePostClick={() => setPageNumber(1)}

@@ -3,6 +3,7 @@ import { FormatDate } from './FormatDate';
 import { IPost, IPostTitleCustom, IUser } from '@/api/_types/apiModels';
 import { theme } from '@/style/theme';
 import { Profile } from '@common/Profile/Profile';
+import { usePostDetail } from '@/hooks/queryHooks';
 
 interface IResData {
   postTitle: string;
@@ -14,17 +15,20 @@ interface IResData {
 }
 
 type DetailMeetDescriptionType = {
-  response: IPost;
+  postId: string;
 };
 
 export const DetailMeetDescription = ({
-  response,
+  postId
 }: DetailMeetDescriptionType) => {
-  const responseTitle = JSON.parse(response.title) as IPostTitleCustom;
-  const responseAuthor = response.author as IUser;
+  const {data} = usePostDetail<IPost>(postId);
+  const { title,  createdAt,  author}=data.data
+  
+  const responseTitle = JSON.parse(title) as IPostTitleCustom;
+  const responseAuthor = author as IUser;
   const resData: IResData = {
     postTitle: responseTitle.postTitle,
-    createdAt: FormatDate(response.createdAt),
+    createdAt: FormatDate(createdAt),
     image: responseAuthor?.image || '',
     _id: responseAuthor._id,
     username: responseAuthor?.username ? responseAuthor.username : '',

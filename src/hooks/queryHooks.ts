@@ -60,7 +60,7 @@ export const useUsersInfo = <T>(userId: string | undefined) => {
 export const usePostDetail= <T>(postId: string) => {
   if(!postId) console.error('postId 정보가 없습니다!');
   return useSuspenseQuery({
-    queryKey: [`posts/${postId}`],
+    queryKey: [`posts/${postId}`, postId],
     queryFn: async ()=> {
       console.log("usePostDetail 쿼리캐싱")
 

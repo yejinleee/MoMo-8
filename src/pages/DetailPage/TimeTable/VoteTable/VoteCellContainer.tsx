@@ -115,7 +115,7 @@ const StCell = styled.td`
   height: 24px;
   text-align: center;
 
-  &:first-child {
+  &:first-of-type {
     box-shadow: 0 0 4px 2px white;
   }
 
