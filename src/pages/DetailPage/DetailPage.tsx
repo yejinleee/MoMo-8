@@ -7,7 +7,7 @@ import { DetailMeetDescription } from './DetailMeetDescription';
 import { DetailPost } from './DetailPost/DetailPost';
 import { DetailTab } from './DetailTab';
 import { useDispatch, useSelector } from '@/_redux/hooks';
-import { getPostDetail } from '@/_redux/slices/postSlices/getPostSlice';
+// import { getPostDetail } from '@/_redux/slices/postSlices/getPostSlice';
 import { RootStateType } from '@/_redux/store';
 import { StSideMarginWrapper } from '@/style/StSideMarginWrapper';
 import { Spinner } from '@common/index';
@@ -34,7 +34,7 @@ export const DetailPage = () => {
       handleAPIError();
     }
     void dispatch(getUserInfo());//////?
-    void dispatch(getPostDetail(id));
+    // void dispatch(getPostDetail(id));
   }, [error, navigate, dispatch, id]);
 
   if (isLoading)
@@ -57,6 +57,7 @@ export const DetailPage = () => {
             handleTimeTableClick={() => setPageNumber(2)}
           />
           <DetailPost
+            postId= {id!}
             pageNumber={pageNumber}
             response={response}
             loginUser={isLogin.user ?? null}

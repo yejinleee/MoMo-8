@@ -1,21 +1,24 @@
 import styled from '@emotion/styled';
 import { IPost, IPostTitleCustom } from '@/api/_types/apiModels';
+import { usePostDetail } from '@/hooks/queryHooks';
 
 type PostContentsType = {
-  response: IPost;
+  postId: string;
 };
 
-export const PostContents = ({ response }: PostContentsType) => {
-  const responseTitle = JSON.parse(response.title) as IPostTitleCustom;
-
+export const PostContents = ({ postId }: PostContentsType) => {
+  const {data} = usePostDetail<IPost>(postId);
+  const {image, title}=data.data
+  const responseTitle = JSON.parse(title) as IPostTitleCustom;
+  
   return (
     <>
       <StPostContainer>
-        {response.image && (
+        {image && (
           <StPostImgWrapper>
             <img
-              src={response.image}
-              alt={`${response.title}_image`}
+              src={image}
+              alt={`${title}_image`}
             />
           </StPostImgWrapper>
         )}

@@ -43,7 +43,11 @@ export const router = createBrowserRouter([
           },
           {
             path: '/details/:id',
-            element: <DetailPage />,
+            element: (
+              <Suspense fallback={<FallbackUI />}>
+                <DetailPage />
+              </Suspense>
+            ),
           },
           {
             path: '/profile/:id',

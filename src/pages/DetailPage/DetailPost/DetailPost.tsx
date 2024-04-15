@@ -6,22 +6,24 @@ import { PostIcon } from './PostIcon';
 import { IPost, IPostTitleCustom, IUser } from '@/api/_types/apiModels';
 
 interface DetailPostProps {
+  postId: string;
   pageNumber: number;
   response: IPost;
   loginUser: IUser | null;
 }
 
 export const DetailPost = ({
+  postId,
   pageNumber,
   response,
   loginUser,
 }: DetailPostProps) => {
   const responseTitle = JSON.parse(response.title) as IPostTitleCustom;
-
+  console.log("~")
   return (
     <StPostContainer>
-      {pageNumber === 1 && <PostContents response={response} />}
-      {pageNumber === 2 && <DetailTimeTablePage post={response} />}
+      {pageNumber === 1 && <PostContents postId={postId} />}
+      {pageNumber === 2 && <DetailTimeTablePage postId={postId}/>}
 
       {responseTitle.tags.length > 0 && (
         <Badge
