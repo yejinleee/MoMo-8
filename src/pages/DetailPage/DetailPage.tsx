@@ -11,6 +11,8 @@ import { useDispatch, useSelector } from '@/_redux/hooks';
 import { RootStateType } from '@/_redux/store';
 import { StSideMarginWrapper } from '@/style/StSideMarginWrapper';
 import { Spinner } from '@common/index';
+import { usePostDetail } from '@/hooks/queryHooks';
+import { IPost } from '@/api/_types/apiModels';
 
 export const DetailPage = () => {
   const { id } = useParams();
@@ -18,11 +20,14 @@ export const DetailPage = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const dispatch = useDispatch();
   const isLogin = useSelector((state: RootStateType) => state.userInfo);
-  const {
-    isLoading,
-    post: response,
-    error,
-  } = useSelector((state: RootStateType) => state.getPostDetail);
+
+  // const {
+  //   isLoading,
+  //   post: response,
+  //   error,
+  // } = useSelector((state: RootStateType) => state.getPostDetail);
+  const {data, isLoading, isError} = usePostDetail<IPost>(id!);
+  const response =data.data
 
   useEffect(() => {
     if (!id) return;
@@ -30,12 +35,12 @@ export const DetailPage = () => {
       alert('API로부터 데이터를 받아올 때 에러가 발생했습니다.');
       navigate('/');
     };
-    if (error) {
+    if (isError) {
       handleAPIError();
     }
     void dispatch(getUserInfo());//////?
     // void dispatch(getPostDetail(id));
-  }, [error, navigate, dispatch, id]);
+  }, [isError, navigate, dispatch, id]);
 
   if (isLoading)
     return (
@@ -46,8 +51,7 @@ export const DetailPage = () => {
       </>
     );
 
-  return (
-    response && (
+  return ((
       <StSideMarginWrapper>
         <StDetailContainer>
           <DetailMeetDescription postId={id!}/>
@@ -59,11 +63,12 @@ export const DetailPage = () => {
           <DetailPost
             postId= {id!}
             pageNumber={pageNumber}
-            response={response}
+            responseTitle={response.title}
             loginUser={isLogin.user ?? null}
           />
           <hr />
           <DetailComment
+            postId= {id!}
             response={response}
             loginUser={isLogin.user ?? null}
           />
