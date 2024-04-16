@@ -1,6 +1,9 @@
-import { IPost, IUser } from "@/api/_types/apiModels";
-import { getApi, getApiJWT } from "@/api/apis";
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { IpostCommentParams } from "@/_redux/slices/postSlices/getPostSlice";
+import { IComment, IPost, IUser } from "@/api/_types/apiModels";
+import { deleteApiJWT, getApi, getApiJWT, postApiJWT } from "@/api/apis";
+import { createNotification } from "@/api/createNotification";
+import { useMutation, useQuery, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+// import { AxiosResponse } from "axios";
 
 // uesUserInfo에서 이름변경
 export const useAuthUser = () => {
@@ -68,4 +71,53 @@ export const usePostDetail= <T>(postId: string) => {
     },
     staleTime: Infinity,
   })
+}
+
+// export const usePostDetail2= <IPost>(postId: string) => {
+//   if(!postId) console.error('postId 정보가 없습니다!');
+//   return useSuspenseQuery<AxiosResponse<IPost>, Error,string>({
+//     queryKey: [`posts/${postId}`, postId],
+//     queryFn: async ()=> {
+//       console.log("usePostDetail 쿼리캐싱")
+
+//       return await getApi<IPost>(`/posts/${postId}`)
+//     },
+//     staleTime: Infinity,
+//     select: data => {
+//       return data.data.title
+//       // 타입 가드 어떻게 해야할까요 !!!!!!!!!!!!!!!!!
+//     }
+//   })
+// }
+
+export const usePostComment = ({ postId, postAuthorId } : IpostCommentParams) => {
+  const queryClient = useQueryClient();
+  const {mutate} = useMutation({
+    mutationFn : async (comment:string) => await postApiJWT<IComment>('/comments/create', {comment, postId}),
+    onSuccess: async (data) => {
+      createNotification({
+        notificationType: 'COMMENT',
+        notificationTypeId: data.data._id,
+        userId: postAuthorId,
+        postId,
+      });
+      await queryClient.invalidateQueries({
+        queryKey: [`posts/${postId}`, postId],
+      });
+    }
+  });
+  return { mutate }
+}
+
+export const useDeleteComment = (postId: string) =>{
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation({
+    mutationFn: async (commentId:string) => await deleteApiJWT<IComment>('/comments/delete', {id: commentId}),
+    onSuccess: async () =>{
+      await queryClient.invalidateQueries({
+        queryKey: [`posts/${postId}`, postId],
+      });
+    }
+  })
+  return {mutate}
 }

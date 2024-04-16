@@ -38,6 +38,7 @@ export const Comment = ({
     setText(editText);
     handleEditChange();
   };
+  console.log("~~", comment)
 
   return (
     <StCommentContainer>

@@ -25,6 +25,7 @@ export const DetailComment = ({ response, loginUser, postId }: DetailCommentProp
       <CommentList
         loginUser={loginUser}
         comments={response.comments}
+        postId= {postId}
       />
     </StCommentContainer>
   );
