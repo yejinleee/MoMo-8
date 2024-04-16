@@ -34,11 +34,11 @@ export const CommentList = ({ comments, loginUser,postId }: CommentListProps) =>
   };
   return (
     isIComment(comments) &&
-    comments.map((comment, idx) => {
+    comments.map((comment) => { //idx를 key로 쓰지말자 ^^
       return (
         !comment.comment.startsWith('@VOTE') && (
           <Comment
-            key={idx}
+            key={comment._id}
             _id={comment.author._id}
             image={comment.author.image as string}
             author={comment.author.fullName}
