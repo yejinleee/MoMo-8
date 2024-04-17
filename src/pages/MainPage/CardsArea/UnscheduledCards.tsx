@@ -9,13 +9,7 @@ import { IPost } from '@/api/_types/apiModels';
 import { getApi } from '@/api/apis';
 import useAxios from '@/api/useAxios';
 import { Card, Icon, Spinner } from '@common/index.ts';
-export const FallbackUI = () =>{
-  return (
-    <StSpinnerWrapper>
-          <Spinner size={50} />
-        </StSpinnerWrapper>
-  )
-}
+
 export const UnscheduledCards = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 

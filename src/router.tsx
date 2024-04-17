@@ -11,7 +11,7 @@ import { ProfilePage } from './pages/ProfilePage/ProfilePage';
 import { SignUpPage } from './pages/SignupPage/SignupPage';
 import { Header } from '@common/index';
 import { Suspense } from 'react';
-import { FallbackUI } from './pages/MainPage/CardsArea/UnscheduledCards';
+import { FallbackSpinner } from '@common/Fallback/FallbackSpinner';
 
 const preventLoginLoader = () => {
   const {
@@ -44,7 +44,7 @@ export const router = createBrowserRouter([
           {
             path: '/details/:id',
             element: (
-              <Suspense fallback={<FallbackUI />}>
+              <Suspense fallback={<FallbackSpinner />}>
                 <DetailPage />
               </Suspense>
             ),
@@ -52,7 +52,7 @@ export const router = createBrowserRouter([
           {
             path: '/profile/:id',
             element: (
-            <Suspense fallback={<FallbackUI />}>
+            <Suspense fallback={<FallbackSpinner />}>
               <ProfilePage />
             </Suspense>),
           },

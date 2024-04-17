@@ -13,8 +13,8 @@ import { IUser } from '@/api/_types/apiModels';
 // import { getApi } from '@/api/apis';
 import { StSideMarginWrapper } from '@/style/StSideMarginWrapper';
 import { Button, Profile } from '@common/index';
-import { FallbackUI } from '../MainPage/CardsArea/UnscheduledCards';
 import { useUsersInfo } from '@/hooks/queryHooks';
+import { FallbackSpinner } from '@common/Fallback/FallbackSpinner';
 
 export const ProfilePage = () => {
   const { id } = useParams();
@@ -101,7 +101,7 @@ export const ProfilePage = () => {
             />
           )}
         </StProfileContainer>
-        <Suspense fallback={<FallbackUI/>}>
+        <Suspense fallback={<FallbackSpinner/>}>
           {tabNumber === 1 &&  <MyCards />}
           {tabNumber === 2 &&  <MyJoinCards />}
           {tabNumber === 3 &&  <MyLikesCards />}

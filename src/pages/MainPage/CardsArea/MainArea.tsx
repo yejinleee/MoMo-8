@@ -30,7 +30,7 @@ export const MainArea = () => {
         />
       </StTabsWrapper>
       <div>
-        {/* <Suspense fallback={<FallbackUI />}> */}
+        {/* <Suspense fallback={<FallbackSpinner />}> */}
         {getItem('mainTab', 0) === 0 ? <UnscheduledCards /> : <ScheduledMain />}
         {/* </Suspense> */}
       </div>
