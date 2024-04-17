@@ -1,7 +1,8 @@
-import { IpostCommentParams } from "@/_redux/slices/postSlices/getPostSlice";
+import { IpostCommentParams, IputPostBody } from "@/_redux/slices/postSlices/getPostSlice";
 import { IComment, IPost, IUser } from "@/api/_types/apiModels";
-import { deleteApiJWT, getApi, getApiJWT, postApiJWT } from "@/api/apis";
+import { deleteApiJWT, getApi, getApiJWT, postApiJWT, putApiJWT } from "@/api/apis";
 import { createNotification } from "@/api/createNotification";
+import { createFormData } from "@/utils/createFormData";
 import { useMutation, useQuery, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 // import { AxiosResponse } from "axios";
 
@@ -89,6 +90,22 @@ export const usePostDetail= <T>(postId: string) => {
 //     }
 //   })
 // }
+
+export const usePutPostDetail = (postId?: string) =>{
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation({
+    mutationFn: async (body: IputPostBody) => await  putApiJWT<IPost, FormData>(
+      `/posts/update`,
+      createFormData(body),
+    ),
+    onSuccess: async () =>{
+      await queryClient.invalidateQueries({
+        queryKey: [`posts/${postId}`, postId],
+      });
+    }
+  })
+  return {mutate}
+}
 
 export const usePostComment = ({ postId, postAuthorId } : IpostCommentParams) => {
   const queryClient = useQueryClient();

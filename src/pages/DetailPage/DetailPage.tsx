@@ -13,6 +13,8 @@ import { StSideMarginWrapper } from '@/style/StSideMarginWrapper';
 import { Spinner } from '@common/index';
 import { usePostDetail } from '@/hooks/queryHooks';
 import { IPost } from '@/api/_types/apiModels';
+import { setDetailPostId } from '@/_redux/slices/detailPostIdSlice';
+import { getPostDetail } from '@/_redux/slices/postSlices/getPostSlice';
 
 export const DetailPage = () => {
   const { id } = useParams();
@@ -24,13 +26,14 @@ export const DetailPage = () => {
   // const {
   //   isLoading,
   //   post: response,
-  //   error,
+  //   error :isError,
   // } = useSelector((state: RootStateType) => state.getPostDetail);
   const {data, isLoading, isError} = usePostDetail<IPost>(id!);
   const response =data.data
-
+  
   useEffect(() => {
     if (!id) return;
+    dispatch(setDetailPostId(id))  
     const handleAPIError = () => {
       alert('API로부터 데이터를 받아올 때 에러가 발생했습니다.');
       navigate('/');
@@ -39,7 +42,7 @@ export const DetailPage = () => {
       handleAPIError();
     }
     void dispatch(getUserInfo());//////?
-    // void dispatch(getPostDetail(id));
+    void dispatch(getPostDetail(id));
   }, [isError, navigate, dispatch, id]);
 
   if (isLoading)
@@ -51,10 +54,10 @@ export const DetailPage = () => {
       </>
     );
 
-  return ((
+  return (
       <StSideMarginWrapper>
         <StDetailContainer>
-          <DetailMeetDescription postId={id!}/>
+          <DetailMeetDescription postId={id!} />
           <DetailTab
             pageNumber={pageNumber}
             handlePostClick={() => setPageNumber(1)}
@@ -74,7 +77,6 @@ export const DetailPage = () => {
           />
         </StDetailContainer>
       </StSideMarginWrapper>
-    )
   );
 };
 

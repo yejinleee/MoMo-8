@@ -19,6 +19,7 @@ import { theme } from '@/style/theme';
 import { createIVote } from '@/utils/createIVote';
 import { getDatesBetween } from '@/utils/getDatesBetween';
 import { Button, Icon, InputCompound, Spinner } from '@common/index';
+import { usePutPostDetail } from '@/hooks/queryHooks';
 
 interface CreateMeetingModalProps extends HTMLAttributes<HTMLDivElement> {
   visible?: boolean;
@@ -44,6 +45,9 @@ export const CreateMeetingModal = ({
   const { isLoading: isPostLoading, post: createdPost } = useSelector(
     (state) => state.getPostDetail,
   );
+
+  const { mutate} = usePutPostDetail(post?._id)
+
   const navigate = useNavigate();
 
   const [isCreated, setIsCreated] = useState(false);
@@ -114,7 +118,8 @@ export const CreateMeetingModal = ({
             : '',
       };
       alert('수정이 완료 되었습니다.');
-      void dispatch(putPost(data));
+      // void dispatch(putPost(data));
+      mutate(data)
       if (onClose) onClose();
     } else {
       const postTitleCustom: IPostTitleCustom = {

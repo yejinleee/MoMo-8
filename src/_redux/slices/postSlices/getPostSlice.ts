@@ -17,7 +17,7 @@ export interface IpostCommentParams {
   postAuthorId: string;
 }
 
-interface IputPostBody {
+export interface IputPostBody {
   title: string | IPostTitleCustom;
   postId: string;
   image: File | null;
