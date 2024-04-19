@@ -5,8 +5,9 @@ import { ILike, IPost, IUser } from '@/api/_types/apiModels';
 import { deleteApiJWT, postApiJWT } from '@/api/apis';
 import { CreateMeetingModal } from '@/pages/MainPage/Modal/CreateMeetingModal';
 import { Icon } from '@common/index';
-import { useQueryClient } from '@tanstack/react-query';
-import { IQueryData } from '../DetailMeetDescription';
+// import { useQueryClient } from '@tanstack/react-query';
+// import { IQueryData } from '../DetailMeetDescription';
+import { usePostDetail } from '@/hooks/queryHooks';
 
 interface PostIconProps {
   // apiResponse: IPost;
@@ -20,10 +21,14 @@ export const PostIcon = ({ loginUser, postId }: PostIconProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
-  const queryClient = useQueryClient();
-  const data = queryClient.getQueryData<IQueryData<IPost>>([`posts/${postId}`, postId])
-  // if (!data) return <Spinner/>
-  const {_id, author, likes} = data!.data
+  // TODO : 여긴 useQueryClient ? useQuery면?
+  // const queryClient = useQueryClient();
+  // const data = queryClient.getQueryData<IQueryData<IPost>>([`posts/${postId}`, postId]) // ERROR
+  // // if (!data) return <Spinner/>
+  // const {_id, author, likes} = data.data
+  // useQuery면 됨..ㅇㅅㅇ?
+  const {data} = usePostDetail<IPost>(postId);
+  const {_id, author, likes}=data.data
 
   const handleHeartClick = async (e: MouseEvent<HTMLElement>) => {
     e.stopPropagation();
@@ -105,7 +110,7 @@ export const PostIcon = ({ loginUser, postId }: PostIconProps) => {
         )}
       </StIconContainer>
       <CreateMeetingModal
-        post={data!.data}
+        post={data.data}
         visible={isModalOpen}
         onClose={() => setIsModalOpen(false)}>
         <button onClick={() => setIsModalOpen(false)}>Close</button>
