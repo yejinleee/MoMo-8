@@ -3,6 +3,8 @@ import { FormatDate } from './FormatDate';
 import { IPost, IPostTitleCustom, IUser } from '@/api/_types/apiModels';
 import { theme } from '@/style/theme';
 import { Profile } from '@common/Profile/Profile';
+import { useQueryClient } from '@tanstack/react-query';
+import { Spinner } from '@common/index';
 
 interface IResData {
   postTitle: string;
@@ -14,17 +16,24 @@ interface IResData {
 }
 
 type DetailMeetDescriptionType = {
-  response: IPost;
+  postId: string;
 };
-
+export interface IQueryData<T> {
+  data:T
+}
 export const DetailMeetDescription = ({
-  response,
+  postId
 }: DetailMeetDescriptionType) => {
-  const responseTitle = JSON.parse(response.title) as IPostTitleCustom;
-  const responseAuthor = response.author as IUser;
+  const queryClient = useQueryClient();
+  const data = queryClient.getQueryData<IQueryData<IPost>>([`posts/${postId}`, postId])
+  if (!data) return <Spinner/>
+  const { title,  createdAt,  author} = data.data
+
+  const responseTitle = JSON.parse(title) as IPostTitleCustom;
+  const responseAuthor = author as IUser;
   const resData: IResData = {
     postTitle: responseTitle.postTitle,
-    createdAt: FormatDate(response.createdAt),
+    createdAt: FormatDate(createdAt),
     image: responseAuthor?.image || '',
     _id: responseAuthor._id,
     username: responseAuthor?.username ? responseAuthor.username : '',

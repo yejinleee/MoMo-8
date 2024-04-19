@@ -3,42 +3,43 @@ import { Badge } from './Badge';
 import { DetailTimeTablePage } from './DetailTimeTablePage';
 import { PostContents } from './PostContents';
 import { PostIcon } from './PostIcon';
-import { IPost, IPostTitleCustom, IUser } from '@/api/_types/apiModels';
+import { IPostTitleCustom, IUser } from '@/api/_types/apiModels';
 
 interface DetailPostProps {
+  postId: string;
   pageNumber: number;
-  response: IPost;
+  responseTitle: string;
   loginUser: IUser | null;
 }
 
 export const DetailPost = ({
+  postId,
   pageNumber,
-  response,
+  responseTitle,
   loginUser,
 }: DetailPostProps) => {
-  const responseTitle = JSON.parse(response.title) as IPostTitleCustom;
-
+  const title = JSON.parse(responseTitle) as IPostTitleCustom;
   return (
     <StPostContainer>
-      {pageNumber === 1 && <PostContents response={response} />}
-      {pageNumber === 2 && <DetailTimeTablePage post={response} />}
+      {pageNumber === 1 && <PostContents postId={postId} />}
+      {pageNumber === 2 && <DetailTimeTablePage postId={postId}/>}
 
-      {responseTitle.tags.length > 0 && (
+      {title.tags.length > 0 && (
         <Badge
           kind="tag"
-          data={responseTitle.tags}
+          data={title.tags}
         />
       )}
-      {responseTitle.mentions.length > 0 && (
+      {title.mentions.length > 0 && (
         <Badge
           kind="mention"
-          data={responseTitle.mentions}
+          data={title.mentions}
         />
       )}
 
       <PostIcon
         loginUser={loginUser}
-        apiResponse={response}
+        postId={postId}
       />
     </StPostContainer>
   );

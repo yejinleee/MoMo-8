@@ -21,6 +21,7 @@ import { parseTitle } from '@/utils/parseTitle';
 import { transpose } from '@/utils/transpose';
 import { Button } from '@common/index';
 import { isEqual } from 'lodash';
+import { useGetPostDetail } from '@/hooks/query/usePost';
 
 export interface IVotedUser {
   id: string;
@@ -36,10 +37,10 @@ export interface IVote {
 }
 
 export type TimeTableType = {
-  post: IPost;
+  postId: string;
 };
 
-export const TimeTable = ({ post }: TimeTableType) => {
+export const TimeTable = ({ postId }: TimeTableType) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.userInfo);
@@ -49,6 +50,9 @@ export const TimeTable = ({ post }: TimeTableType) => {
     fullName,
     username,
   } = useSelector((state) => state.userInfo.user as IUser);
+  
+  const {data} = useGetPostDetail<IPost>(postId);
+  const { title, comments}=data.data
 
   const [isVoting, setIsVoting] = useState(false);
 
@@ -57,10 +61,10 @@ export const TimeTable = ({ post }: TimeTableType) => {
 
   const { vote, transposedVote, meetDate, participants, timeColumn, dateRow } =
     useMemo(() => {
-      const parsedTitle = parseTitle(post.title);
+      const parsedTitle = parseTitle(title);
       const meetDate = parsedTitle.meetDate;
 
-      const receivedComments = post.comments as IComment[];
+      const receivedComments = comments as IComment[];
       const allVotes = receivedComments.filter(({ comment }) =>
         comment.startsWith('@VOTE'),
       );
@@ -111,7 +115,7 @@ export const TimeTable = ({ post }: TimeTableType) => {
         timeColumn,
         dateRow,
       };
-    }, [post, user]);
+    }, [user]);
 
   const { votedCells, prevVotedCells } = useSelector((state) => state.cells);
 
@@ -147,10 +151,10 @@ export const TimeTable = ({ post }: TimeTableType) => {
 
   const modifyVoteComment = async () => {
     const deleteCommentId =
-      (post.comments as IComment[]).find(
+      (comments as IComment[]).find(
         (comment) =>
           comment.author._id === userId && comment.comment.startsWith('@VOTE'),
-      )?._id ?? (post.comments as string[]).find((id) => id === userId);
+      )?._id ?? (comments as string[]).find((id) => id === userId);
 
     const modifiedMyVote = modifyMyVote(userId, fullName, username);
 
@@ -166,10 +170,10 @@ export const TimeTable = ({ post }: TimeTableType) => {
 
       await postApiJWT<IComment>('/comments/create', {
         comment: modifiedVoteComment,
-        postId: post._id,
+        postId,
       });
 
-      void dispatch(getPostDetail(post._id));
+      void dispatch(getPostDetail(postId));
     } catch (err) {
       console.error(err);
     }

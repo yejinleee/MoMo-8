@@ -1,23 +1,25 @@
 import { useNavigate } from 'react-router-dom';
 import { StCardsWrapper } from './profilePageStyles';
 import { IPost } from '@/api/_types/apiModels';
-import { getApi } from '@/api/apis';
-import useAxios from '@/api/useAxios';
+// import { getApi } from '@/api/apis';
+// import useAxios from '@/api/useAxios';
 import { Card, Spinner } from '@common/index';
+import { usePostsAuthor } from '@/hooks/queryHooks';
 
 export const UserCards = ({ userId }: { userId: string }) => {
   const navigate = useNavigate();
 
-  const { response, error, isLoading } = useAxios<IPost[]>(() =>
-    getApi(`/posts/author/${userId}`),
-  );
-
+  // const { response, error, isLoading } = useAxios<IPost[]>(() =>
+  //   getApi(`/posts/author/${userId}`),
+  // );
+  const {data, isError, isFetching} = usePostsAuthor<IPost[]>(userId)
+  const response = data.data
   return (
     <>
       <StCardsWrapper>
-        {isLoading ? (
+        {isFetching ? (
           <Spinner />
-        ) : !error && response.length > 0 ? (
+        ) : !isError && response.length > 0 ? (
           response.map((post, idx) => (
             <Card
               key={idx}

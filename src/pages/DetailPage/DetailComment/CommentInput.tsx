@@ -2,11 +2,12 @@ import styled from '@emotion/styled';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TextareaAutosize from 'react-textarea-autosize';
-import { useDispatch } from '@/_redux/hooks';
-import { postComment } from '@/_redux/slices/postSlices/getPostSlice';
+// import { useDispatch } from '@/_redux/hooks';
+// import { postComment } from '@/_redux/slices/postSlices/getPostSlice';
 import { IUser } from '@/api/_types/apiModels';
 import { theme } from '@/style/theme';
 import { Button, Profile } from '@common/index';
+import { usePostComment } from '@/hooks/query/useComment';
 
 interface CommentInputProps {
   loginUser: IUser | null;
@@ -21,13 +22,13 @@ export const CommentInput = ({
 }: CommentInputProps) => {
   const navigate = useNavigate();
   const [text, setText] = useState('');
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  const handlePostComment = () => {
-    const data = { comment: text, postId, postAuthorId };
-    void dispatch(postComment(data));
-  };
-
+  // const handlePostComment = () => {
+  //   const data = { comment: text, postId, postAuthorId };
+  //   void dispatch(postComment(data));
+  // };
+  const { mutate } = usePostComment({comment: text, postId, postAuthorId})
   const handleButtonClick = () => {
     if (!loginUser) {
       const isUserNeedLogin = confirm('로그인이 필요한 서비스입니다.');
@@ -40,7 +41,7 @@ export const CommentInput = ({
       return;
     }
 
-    void handlePostComment();
+    mutate(text)
     setText('');
   };
 

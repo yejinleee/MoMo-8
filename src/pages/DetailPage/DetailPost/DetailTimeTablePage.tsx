@@ -1,15 +1,14 @@
 import { TimeTable } from '../TimeTable/TimeTable';
 import { StPostContainer } from './PostContents';
-import { IPost } from '@/api/_types/apiModels';
 
 type DetailTimeTablePageType = {
-  post: IPost;
+  postId: string;
 };
 
-export const DetailTimeTablePage = ({ post }: DetailTimeTablePageType) => {
+export const DetailTimeTablePage = ({  postId }: DetailTimeTablePageType) => {
   return (
     <StPostContainer>
-      <TimeTable post={post} />
+      <TimeTable postId={postId}/>
     </StPostContainer>
   );
 };

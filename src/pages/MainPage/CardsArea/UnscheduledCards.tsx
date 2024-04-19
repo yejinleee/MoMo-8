@@ -10,7 +10,7 @@ import { getApi } from '@/api/apis';
 import useAxios from '@/api/useAxios';
 import { Card, Icon, Spinner } from '@common/index.ts';
 
-export const UnsheduledCards = () => {
+export const UnscheduledCards = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { response, error, isLoading } = useAxios<IPost[]>(() =>

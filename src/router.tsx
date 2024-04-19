@@ -10,6 +10,8 @@ import { EditProfilePage } from './pages/ProfilePage/EditProfilePage';
 import { ProfilePage } from './pages/ProfilePage/ProfilePage';
 import { SignUpPage } from './pages/SignupPage/SignupPage';
 import { Header } from '@common/index';
+import { Suspense } from 'react';
+import { FallbackSpinner } from '@common/Fallback/FallbackSpinner';
 
 const preventLoginLoader = () => {
   const {
@@ -41,11 +43,18 @@ export const router = createBrowserRouter([
           },
           {
             path: '/details/:id',
-            element: <DetailPage />,
+            element: (
+              <Suspense fallback={<FallbackSpinner />}>
+                <DetailPage />
+              </Suspense>
+            ),
           },
           {
             path: '/profile/:id',
-            element: <ProfilePage />,
+            element: (
+            <Suspense fallback={<FallbackSpinner />}>
+              <ProfilePage />
+            </Suspense>),
           },
           {
             path: '/editProfile',

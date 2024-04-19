@@ -6,15 +6,16 @@ import { IPost, IUser } from '@/api/_types/apiModels';
 interface DetailCommentProps {
   response: IPost;
   loginUser: IUser | null;
+  postId: string;
 }
 
-export const DetailComment = ({ response, loginUser }: DetailCommentProps) => {
+export const DetailComment = ({ response, loginUser, postId }: DetailCommentProps) => {
   return (
     <StCommentContainer>
       <StCommentPicket>댓글</StCommentPicket>
       <CommentInput
         loginUser={loginUser}
-        postId={response._id}
+        postId={postId}
         postAuthorId={
           typeof response.author === 'string'
             ? response.author
@@ -24,6 +25,7 @@ export const DetailComment = ({ response, loginUser }: DetailCommentProps) => {
       <CommentList
         loginUser={loginUser}
         comments={response.comments}
+        postId= {postId}
       />
     </StCommentContainer>
   );

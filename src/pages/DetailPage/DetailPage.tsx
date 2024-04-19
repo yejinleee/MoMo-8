@@ -7,10 +7,14 @@ import { DetailMeetDescription } from './DetailMeetDescription';
 import { DetailPost } from './DetailPost/DetailPost';
 import { DetailTab } from './DetailTab';
 import { useDispatch, useSelector } from '@/_redux/hooks';
-import { getPostDetail } from '@/_redux/slices/postSlices/getPostSlice';
+// import { getPostDetail } from '@/_redux/slices/postSlices/getPostSlice';
 import { RootStateType } from '@/_redux/store';
 import { StSideMarginWrapper } from '@/style/StSideMarginWrapper';
 import { Spinner } from '@common/index';
+import { IPost } from '@/api/_types/apiModels';
+import { setDetailPostId } from '@/_redux/slices/detailPostIdSlice';
+import { getPostDetail } from '@/_redux/slices/postSlices/getPostSlice';
+import { useGetPostDetail } from '@/hooks/query/usePost';
 
 export const DetailPage = () => {
   const { id } = useParams();
@@ -18,24 +22,28 @@ export const DetailPage = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const dispatch = useDispatch();
   const isLogin = useSelector((state: RootStateType) => state.userInfo);
-  const {
-    isLoading,
-    post: response,
-    error,
-  } = useSelector((state: RootStateType) => state.getPostDetail);
 
+  // const {
+  //   isLoading,
+  //   post: response,
+  //   error :isError,
+  // } = useSelector((state: RootStateType) => state.getPostDetail);
+  const {data, isLoading, isError} = useGetPostDetail<IPost>(id!);
+  const response =data.data
+  
   useEffect(() => {
     if (!id) return;
+    dispatch(setDetailPostId(id))  
     const handleAPIError = () => {
       alert('API로부터 데이터를 받아올 때 에러가 발생했습니다.');
       navigate('/');
     };
-    if (error) {
+    if (isError) {
       handleAPIError();
     }
     void dispatch(getUserInfo());//////?
     void dispatch(getPostDetail(id));
-  }, [error, navigate, dispatch, id]);
+  }, [isError, navigate, dispatch, id]);
 
   if (isLoading)
     return (
@@ -47,28 +55,28 @@ export const DetailPage = () => {
     );
 
   return (
-    response && (
       <StSideMarginWrapper>
         <StDetailContainer>
-          <DetailMeetDescription response={response} />
+          <DetailMeetDescription postId={id!} />
           <DetailTab
             pageNumber={pageNumber}
             handlePostClick={() => setPageNumber(1)}
             handleTimeTableClick={() => setPageNumber(2)}
           />
           <DetailPost
+            postId= {id!}
             pageNumber={pageNumber}
-            response={response}
+            responseTitle={response.title}
             loginUser={isLogin.user ?? null}
           />
           <hr />
           <DetailComment
+            postId= {id!}
             response={response}
             loginUser={isLogin.user ?? null}
           />
         </StDetailContainer>
       </StSideMarginWrapper>
-    )
   );
 };
 

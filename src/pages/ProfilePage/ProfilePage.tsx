@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { MyCards } from './MyCards';
 import { MyJoinCards } from './MyJoinCards';
@@ -10,9 +10,11 @@ import { UserJoinCards } from './UserJoinCards';
 import { useDispatch, useSelector } from '@/_redux/hooks';
 import { getUserInfo } from '@/_redux/slices/userSlice';
 import { IUser } from '@/api/_types/apiModels';
-import { getApi } from '@/api/apis';
+// import { getApi } from '@/api/apis';
 import { StSideMarginWrapper } from '@/style/StSideMarginWrapper';
 import { Button, Profile } from '@common/index';
+import { useUsersInfo } from '@/hooks/queryHooks';
+import { FallbackSpinner } from '@common/Fallback/FallbackSpinner';
 
 export const ProfilePage = () => {
   const { id } = useParams();
@@ -24,15 +26,18 @@ export const ProfilePage = () => {
 
   useEffect(() => {
     void dispatch(getUserInfo());
-  }, [tabNumber]);
+  }, []);
 
-  const [response, setResponse] = useState<IUser>({} as IUser);
-  const fetching = async () => {
-    const res = await getApi<IUser>(`/users/${id}`);
-    setResponse(res.data);
-  };
+  // const [response, setResponse] = useState<IUser>({} as IUser);
+  // const fetching = async () => {
+  //   const res = await getApi<IUser>(`/users/${id}`);
+  //   setResponse(res.data);
+  // };
+  const {data} = useUsersInfo<IUser>(id)
+  const response = data?.data  /// '?' 
+
   useEffect(() => {
-    void fetching();
+    // void fetching();
     if (userInfo?._id !== id) {
       setTabNumber(4);
     } else {
@@ -46,7 +51,7 @@ export const ProfilePage = () => {
         <StModalBackdrop onClick={() => setModalOpen(false)}>
           <StModalContent onClick={(e) => e.stopPropagation()}>
             <img
-              src={response.image || ''}
+              src={response?.image || ''}
               alt="Zoomed"
               style={{ maxWidth: '100%', height: 'auto' }}
             />
@@ -96,17 +101,13 @@ export const ProfilePage = () => {
             />
           )}
         </StProfileContainer>
-        {tabNumber === 1 ? (
-          <MyCards />
-        ) : tabNumber === 2 ? (
-          <MyJoinCards />
-        ) : tabNumber === 3 ? (
-          <MyLikesCards />
-        ) : tabNumber === 4 ? (
-          <UserCards userId={id || ''} />
-        ) : (
-          <UserJoinCards userId={id || ''} />
-        )}
+        <Suspense fallback={<FallbackSpinner/>}>
+          {tabNumber === 1 &&  <MyCards />}
+          {tabNumber === 2 &&  <MyJoinCards />}
+          {tabNumber === 3 &&  <MyLikesCards />}
+          {tabNumber === 4 &&  <UserCards userId={id || ''} />}
+          {tabNumber === 5 &&  <UserJoinCards userId={id || ''} />}
+        </Suspense>
       </StProfileWrapper>
     </StSideMarginWrapper>
   );

@@ -13,7 +13,6 @@ import {
 } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
-export const persistor = persistStore(store);
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -22,14 +21,11 @@ const queryClient = new QueryClient({
     },
   },
   queryCache: new QueryCache({
-    onError: (error, query) => {
-      if (query?.meta?.errorMessage) {
-        // eslint-disable-next-line no-console
-        console.log(query.meta.errorMessage, error); //임시 에러처리용
-      }
-    },
+    onError: () => {},
   }),
 });
+const persistor = persistStore(store);
+
 export const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
