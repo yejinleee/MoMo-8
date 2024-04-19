@@ -12,14 +12,13 @@ import { Calendar } from './Calendar';
 import { Slider } from './Slider';
 import { useDispatch, useSelector } from '@/_redux/hooks';
 import { createPost } from '@/_redux/slices/postSlices/getPostSlice';
-import { putPost } from '@/_redux/slices/postSlices/putPostSlice';
 import { getUserInfo } from '@/_redux/slices/userSlice';
 import type { IPost, IPostTitleCustom } from '@/api/_types/apiModels';
 import { theme } from '@/style/theme';
 import { createIVote } from '@/utils/createIVote';
 import { getDatesBetween } from '@/utils/getDatesBetween';
 import { Button, Icon, InputCompound, Spinner } from '@common/index';
-import { usePutPostDetail } from '@/hooks/queryHooks';
+import { usePutPostDetail } from '@/hooks/query/usePost';
 
 interface CreateMeetingModalProps extends HTMLAttributes<HTMLDivElement> {
   visible?: boolean;

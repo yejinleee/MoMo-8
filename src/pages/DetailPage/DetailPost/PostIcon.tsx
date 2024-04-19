@@ -5,9 +5,9 @@ import { ILike, IPost, IUser } from '@/api/_types/apiModels';
 import { deleteApiJWT, postApiJWT } from '@/api/apis';
 import { CreateMeetingModal } from '@/pages/MainPage/Modal/CreateMeetingModal';
 import { Icon } from '@common/index';
+import { useGetPostDetail } from '@/hooks/query/usePost';
 // import { useQueryClient } from '@tanstack/react-query';
 // import { IQueryData } from '../DetailMeetDescription';
-import { usePostDetail } from '@/hooks/queryHooks';
 
 interface PostIconProps {
   // apiResponse: IPost;
@@ -27,7 +27,7 @@ export const PostIcon = ({ loginUser, postId }: PostIconProps) => {
   // // if (!data) return <Spinner/>
   // const {_id, author, likes} = data.data
   // useQuery면 됨..ㅇㅅㅇ?
-  const {data} = usePostDetail<IPost>(postId);
+  const {data} = useGetPostDetail<IPost>(postId);
   const {_id, author, likes}=data.data
 
   const handleHeartClick = async (e: MouseEvent<HTMLElement>) => {

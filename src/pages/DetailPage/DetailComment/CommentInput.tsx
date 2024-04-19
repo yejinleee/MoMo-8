@@ -7,7 +7,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import { IUser } from '@/api/_types/apiModels';
 import { theme } from '@/style/theme';
 import { Button, Profile } from '@common/index';
-import { usePostComment } from '@/hooks/queryHooks';
+import { usePostComment } from '@/hooks/query/useComment';
 
 interface CommentInputProps {
   loginUser: IUser | null;

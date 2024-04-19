@@ -21,7 +21,7 @@ import { parseTitle } from '@/utils/parseTitle';
 import { transpose } from '@/utils/transpose';
 import { Button } from '@common/index';
 import { isEqual } from 'lodash';
-import { usePostDetail } from '@/hooks/queryHooks';
+import { useGetPostDetail } from '@/hooks/query/usePost';
 
 export interface IVotedUser {
   id: string;
@@ -51,7 +51,7 @@ export const TimeTable = ({ postId }: TimeTableType) => {
     username,
   } = useSelector((state) => state.userInfo.user as IUser);
   
-  const {data} = usePostDetail<IPost>(postId);
+  const {data} = useGetPostDetail<IPost>(postId);
   const { title, comments}=data.data
 
   const [isVoting, setIsVoting] = useState(false);

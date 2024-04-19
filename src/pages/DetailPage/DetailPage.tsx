@@ -11,10 +11,10 @@ import { useDispatch, useSelector } from '@/_redux/hooks';
 import { RootStateType } from '@/_redux/store';
 import { StSideMarginWrapper } from '@/style/StSideMarginWrapper';
 import { Spinner } from '@common/index';
-import { usePostDetail } from '@/hooks/queryHooks';
 import { IPost } from '@/api/_types/apiModels';
 import { setDetailPostId } from '@/_redux/slices/detailPostIdSlice';
 import { getPostDetail } from '@/_redux/slices/postSlices/getPostSlice';
+import { useGetPostDetail } from '@/hooks/query/usePost';
 
 export const DetailPage = () => {
   const { id } = useParams();
@@ -28,7 +28,7 @@ export const DetailPage = () => {
   //   post: response,
   //   error :isError,
   // } = useSelector((state: RootStateType) => state.getPostDetail);
-  const {data, isLoading, isError} = usePostDetail<IPost>(id!);
+  const {data, isLoading, isError} = useGetPostDetail<IPost>(id!);
   const response =data.data
   
   useEffect(() => {

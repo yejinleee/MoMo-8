@@ -1,12 +1,9 @@
 import { useState } from 'react';
 import { isIComment } from '../IsIComment';
-import { useDispatch } from '@/_redux/hooks';
-import { deleteComment } from '@/_redux/slices/postSlices/getPostSlice';
-import { IComment, IPost, IUser } from '@/api/_types/apiModels';
-import { Comment, Spinner } from '@common/index';
-import { useDeleteComment } from '@/hooks/queryHooks';
-import { useQueryClient } from '@tanstack/react-query';
-import { IQueryData } from '../DetailMeetDescription';
+// import { deleteComment } from '@/_redux/slices/postSlices/getPostSlice';
+import { IComment,  IUser } from '@/api/_types/apiModels';
+import { Comment, } from '@common/index';
+import { useDeleteComment } from '@/hooks/query/useComment';
 
 interface CommentListProps {
   comments: IComment[] | string[];
@@ -16,13 +13,12 @@ interface CommentListProps {
 
 export const CommentList = ({ comments, loginUser,postId }: CommentListProps) => {
   const [mode, setMode] = useState<'readonly' | 'edit'>('readonly');
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const handleEditChange = () => {
     mode === 'readonly' ? setMode('edit') : setMode('readonly');
   };
 
-  const queryClient = useQueryClient();
   const { mutate } = useDeleteComment(postId)
   
   console.log(comments)
