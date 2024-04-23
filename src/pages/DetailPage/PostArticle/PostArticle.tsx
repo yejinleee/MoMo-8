@@ -12,7 +12,7 @@ interface DetailPostProps {
   loginUser: IUser | null;
 }
 
-export const DetailPost = ({
+export const PostArticle = ({
   postId,
   pageNumber,
   responseTitle,
@@ -22,7 +22,7 @@ export const DetailPost = ({
   return (
     <StPostContainer>
       {pageNumber === 1 && <PostContents postId={postId} />}
-      {pageNumber === 2 && <DetailTimeTablePage postId={postId}/>}
+      {pageNumber === 2 && <DetailTimeTablePage postId={postId} />}
 
       {title.tags.length > 0 && (
         <Badge
