@@ -1,10 +1,12 @@
 import styled from '@emotion/styled';
+import { useContext } from 'react';
 import { FormatDate } from './FormatDate';
+import PostIdContext from './components/PostIdContext';
 import { IPost, IPostTitleCustom, IUser } from '@/api/_types/apiModels';
 import { theme } from '@/style/theme';
 import { Profile } from '@common/Profile/Profile';
-import { useQueryClient } from '@tanstack/react-query';
 import { Spinner } from '@common/index';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface IResData {
   postTitle: string;
@@ -15,19 +17,25 @@ interface IResData {
   fullName: string;
 }
 
-type DetailMeetDescriptionType = {
-  postId: string;
-};
 export interface IQueryData<T> {
-  data:T
+  data: T;
 }
-export const DetailMeetDescription = ({
-  postId
-}: DetailMeetDescriptionType) => {
+
+export const PostHeader = () => {
+  const postId = useContext(PostIdContext);
   const queryClient = useQueryClient();
-  const data = queryClient.getQueryData<IQueryData<IPost>>([`posts/${postId}`, postId])
-  if (!data) return <Spinner/>
-  const { title,  createdAt,  author} = data.data
+  const data = queryClient.getQueryData<IQueryData<IPost>>([
+    `posts/${postId}`,
+    postId,
+  ]);
+  if (!data) return <Spinner />;
+  const { title, createdAt, author } = data.data;
+
+  // Todo: 위 코드와 아래 주석 코드 중, 조금 더 효율이 좋은 방법 중 하나로 수정 예정
+  // const { data: response, isFetched } = usePostDetail(id || '');
+  // if (!isFetched) return null;
+  // const parsedTitle = JSON.parse(response?.title) as IPostTitleCustom;
+  // const responseAuthor = (response?.author as IUser) || {};
 
   const responseTitle = JSON.parse(title) as IPostTitleCustom;
   const responseAuthor = author as IUser;
