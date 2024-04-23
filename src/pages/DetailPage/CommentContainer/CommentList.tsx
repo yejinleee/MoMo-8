@@ -1,22 +1,19 @@
 import { useState } from 'react';
 import { isIComment } from '../components/IsIComment';
-import { IComment, IUser } from '@/api/_types/apiModels';
+import { useSelector } from '@/_redux/hooks';
+import { RootStateType } from '@/_redux/store';
+import { IComment } from '@/api/_types/apiModels';
 import { useDeleteComment } from '@/hooks/query/useComment';
 import { Comment } from '@common/index';
 
 interface CommentListProps {
   comments: IComment[] | string[];
-  loginUser: IUser | null;
   postId: string;
 }
 
-export const CommentList = ({
-  comments,
-  loginUser,
-  postId,
-}: CommentListProps) => {
+export const CommentList = ({ comments, postId }: CommentListProps) => {
+  const loginUser = useSelector((state: RootStateType) => state.userInfo).user;
   const [mode, setMode] = useState<'readonly' | 'edit'>('readonly');
-  // const dispatch = useDispatch();
 
   const handleEditChange = () => {
     mode === 'readonly' ? setMode('edit') : setMode('readonly');

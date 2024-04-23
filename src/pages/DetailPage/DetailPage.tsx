@@ -1,31 +1,23 @@
 import styled from '@emotion/styled';
 import { useNavigate, useParams } from 'react-router-dom';
-import { DetailComment } from './DetailComment/DetailComment';
-import { DetailPost } from './PostContainer/DetailPost';
+import { CommentContainer } from './CommentContainer/CommentContainer';
+import { PostContainer } from './PostContainer';
 import PostIdContext from './components/PostIdContext';
-import { useSelector } from '@/_redux/hooks';
-import { RootStateType } from '@/_redux/store';
-import { IPostTitleCustom } from '@/api/_types/apiModels';
-import { usePostDetail } from '@/hooks/query/usePostDetail';
+import { useGetPostDetail } from '@/hooks/query/usePost';
 import { StSideMarginWrapper } from '@/style/StSideMarginWrapper';
 import { Spinner } from '@common/index';
 
 export const DetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const isLogin = useSelector((state: RootStateType) => state.userInfo);
-  const { isLoading, isError } = usePostDetail(id || '');
+  const { isLoading, isError } = useGetPostDetail(id || '');
 
   // Todo: PostTitle을 파싱한 값이 여러 하위 컴포넌트에서 사용됨
   // Todo: => data.data.title 값을 파싱해서 컨텍스트에 담아 감싸기
 
-  const handleAPIError = () => {
+  if (isError) {
     alert('API로부터 데이터를 받아올 때 에러가 발생했습니다.');
     navigate('/');
-  };
-
-  if (isError) {
-    handleAPIError();
   }
 
   // Todo: Suspense 작업 시 수정 예정
@@ -39,22 +31,17 @@ export const DetailPage = () => {
     );
 
   return (
-    response && (
-      <StSideMarginWrapper>
-        <StDetailContainer>
-          <PostIdContext.Provider value={id || ''}>
-            {/* Post part */}
-            <PostContainer />
-          </PostIdContext.Provider>
-          <hr />
-          {/* Comment part */}
-          <DetailComment
-            response={response.data}
-            loginUser={isLogin.user ?? null}
-          />
-        </StDetailContainer>
-      </StSideMarginWrapper>
-    )
+    <StSideMarginWrapper>
+      <StDetailContainer>
+        <PostIdContext.Provider value={id || ''}>
+          {/* Post part */}
+          <PostContainer />
+        </PostIdContext.Provider>
+        <hr />
+        {/* Comment part */}
+        <CommentContainer response={response.data} />
+      </StDetailContainer>
+    </StSideMarginWrapper>
   );
 };
 
