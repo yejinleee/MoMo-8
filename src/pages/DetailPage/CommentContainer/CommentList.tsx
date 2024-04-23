@@ -1,17 +1,20 @@
 import { useState } from 'react';
-import { isIComment } from '../IsIComment';
-// import { deleteComment } from '@/_redux/slices/postSlices/getPostSlice';
-import { IComment,  IUser } from '@/api/_types/apiModels';
-import { Comment, } from '@common/index';
+import { isIComment } from '../components/IsIComment';
+import { IComment, IUser } from '@/api/_types/apiModels';
 import { useDeleteComment } from '@/hooks/query/useComment';
+import { Comment } from '@common/index';
 
 interface CommentListProps {
   comments: IComment[] | string[];
   loginUser: IUser | null;
-  postId : string;
+  postId: string;
 }
 
-export const CommentList = ({ comments, loginUser,postId }: CommentListProps) => {
+export const CommentList = ({
+  comments,
+  loginUser,
+  postId,
+}: CommentListProps) => {
   const [mode, setMode] = useState<'readonly' | 'edit'>('readonly');
   // const dispatch = useDispatch();
 
@@ -19,18 +22,19 @@ export const CommentList = ({ comments, loginUser,postId }: CommentListProps) =>
     mode === 'readonly' ? setMode('edit') : setMode('readonly');
   };
 
-  const { mutate } = useDeleteComment(postId)
-  
-  console.log(comments)
+  const { mutate } = useDeleteComment(postId);
+
+  console.log(comments);
   const handleDeleteClick = (id: string) => {
     const isDelete = confirm('댓글을 삭제하시겠습니까?');
     if (!isDelete) return;
     // void dispatch(deleteComment(id));
-    mutate(id)
+    mutate(id);
   };
   return (
     isIComment(comments) &&
-    comments.map((comment) => { //idx를 key로 쓰지말자 ^^
+    comments.map((comment) => {
+      //idx를 key로 쓰지말자 ^^
       return (
         !comment.comment.startsWith('@VOTE') && (
           <Comment

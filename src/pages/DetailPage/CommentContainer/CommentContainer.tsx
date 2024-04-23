@@ -3,13 +3,17 @@ import { CommentInput } from './CommentInput';
 import { CommentList } from './CommentList';
 import { IPost, IUser } from '@/api/_types/apiModels';
 
-interface DetailCommentProps {
+interface CommentContainerProps {
   response: IPost;
   loginUser: IUser | null;
   postId: string;
 }
 
-export const DetailComment = ({ response, loginUser, postId }: DetailCommentProps) => {
+export const CommentContainer = ({
+  response,
+  loginUser,
+  postId,
+}: CommentContainerProps) => {
   return (
     <StCommentContainer>
       <StCommentPicket>댓글</StCommentPicket>
@@ -25,7 +29,7 @@ export const DetailComment = ({ response, loginUser, postId }: DetailCommentProp
       <CommentList
         loginUser={loginUser}
         comments={response.comments}
-        postId= {postId}
+        postId={postId}
       />
     </StCommentContainer>
   );
