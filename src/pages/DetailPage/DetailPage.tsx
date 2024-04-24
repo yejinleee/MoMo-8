@@ -10,8 +10,9 @@ import { Spinner } from '@common/index';
 export const DetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { isLoading, isError } = useGetPostDetail(id || '');
-
+  const { data, isLoading, isError } = useGetPostDetail(id || '');
+  const response = data.data
+  
   // Todo: PostTitle을 파싱한 값이 여러 하위 컴포넌트에서 사용됨
   // Todo: => data.data.title 값을 파싱해서 컨텍스트에 담아 감싸기
 
@@ -39,7 +40,7 @@ export const DetailPage = () => {
         </PostIdContext.Provider>
         <hr />
         {/* Comment part */}
-        <CommentContainer response={response.data} />
+        <CommentContainer response={response} />
       </StDetailContainer>
     </StSideMarginWrapper>
   );

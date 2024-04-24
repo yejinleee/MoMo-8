@@ -6,13 +6,13 @@ import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-q
 
 // 구)usePostDetail
 // postId의 포스트를 get합니다 : IPost
-export const useGetPostDetail= <T>(postId: string) => {
+export const useGetPostDetail=(postId: string) => {
   if(!postId) console.error('postId 정보가 없습니다!');
   return useSuspenseQuery({
     queryKey: [`posts/${postId}`, postId],
     queryFn: async ()=> {
       console.log("useGetPostDetail 쿼리캐싱")
-      return await getApi<T>(`/posts/${postId}`)
+      return await getApi<IPost>(`/posts/${postId}`)
     },
     staleTime: Infinity,
   })
