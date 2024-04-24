@@ -27,7 +27,7 @@ export const PostIcon = ({ loginUser, postId }: PostIconProps) => {
   // // if (!data) return <Spinner/>
   // const {_id, author, likes} = data.data
   // useQuery면 됨..ㅇㅅㅇ?
-  const {data} = useGetPostDetail<IPost>(postId);
+  const {data} = useGetPostDetail(postId);
   const {_id, author, likes}=data.data
 
   const handleHeartClick = async (e: MouseEvent<HTMLElement>) => {

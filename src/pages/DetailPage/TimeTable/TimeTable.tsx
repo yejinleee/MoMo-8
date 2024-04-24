@@ -14,7 +14,7 @@ import {
   reset,
   updateInit,
 } from '@/_redux/slices/timeTableSlice';
-import { IComment, IPost, IUser } from '@/api/_types/apiModels';
+import { IComment, IUser } from '@/api/_types/apiModels';
 import { deleteApiJWT, postApiJWT } from '@/api/apis';
 import { createIVote } from '@/utils/createIVote';
 import { parseTitle } from '@/utils/parseTitle';
@@ -51,7 +51,7 @@ export const TimeTable = ({ postId }: TimeTableType) => {
     username,
   } = useSelector((state) => state.userInfo.user as IUser);
   
-  const {data} = useGetPostDetail<IPost>(postId);
+  const {data} = useGetPostDetail(postId);
   const { title, comments}=data.data
 
   const [isVoting, setIsVoting] = useState(false);
