@@ -13,7 +13,6 @@ export const PostContents = ({ postId }: PostContentsType) => {
   
   return (
     <>
-      <StPostContainer>
         {image && (
           <StPostImgWrapper>
             <img
@@ -23,7 +22,6 @@ export const PostContents = ({ postId }: PostContentsType) => {
           </StPostImgWrapper>
         )}
         <StPostContents>{responseTitle.contents}</StPostContents>
-      </StPostContainer>
     </>
   );
 };
