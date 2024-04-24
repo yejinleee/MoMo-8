@@ -3,22 +3,24 @@ import { Badge } from './Badge';
 import { DetailTimeTablePage } from './DetailTimeTablePage';
 import { PostContents } from './PostContents';
 import { PostIcon } from './PostIcon';
-import { IPostTitleCustom, IUser } from '@/api/_types/apiModels';
+import { IPostTitleCustom } from '@/api/_types/apiModels';
+import { useGetPostDetail } from '@/hooks/query/usePost';
+import { useContext } from 'react';
+import PostIdContext from '../components/PostIdContext';
 
-interface DetailPostProps {
-  postId: string;
+interface PostArticleProps {
   pageNumber: number;
-  responseTitle: string;
-  loginUser: IUser | null;
 }
 
 export const PostArticle = ({
-  postId,
   pageNumber,
-  responseTitle,
-  loginUser,
-}: DetailPostProps) => {
-  const title = JSON.parse(responseTitle) as IPostTitleCustom;
+}: PostArticleProps) => {
+  const postId = useContext(PostIdContext);
+
+  const { data } = useGetPostDetail(postId || '');
+  const response = data.data
+
+  const title = JSON.parse(response.title) as IPostTitleCustom;
   return (
     <StPostContainer>
       {pageNumber === 1 && <PostContents postId={postId} />}
@@ -38,7 +40,6 @@ export const PostArticle = ({
       )}
 
       <PostIcon
-        loginUser={loginUser}
         postId={postId}
       />
     </StPostContainer>
