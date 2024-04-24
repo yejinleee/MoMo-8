@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
 import { useContext } from 'react';
-import { FormatDate } from './FormatDate';
 import PostIdContext from './components/PostIdContext';
 import { IPost, IPostTitleCustom, IUser } from '@/api/_types/apiModels';
 import { theme } from '@/style/theme';
 import { Profile } from '@common/Profile/Profile';
 import { Spinner } from '@common/index';
 import { useQueryClient } from '@tanstack/react-query';
+import { FormatDate } from './components/FormatDate';
 
 interface IResData {
   postTitle: string;

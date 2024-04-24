@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
-import { FormatDate } from '@/pages/DetailPage/FormatDate';
 import { theme } from '@/style/theme';
 import { Button, Icon, Profile } from '@common/index';
+import { FormatDate } from '@/pages/DetailPage/components/FormatDate';
 
 interface CommentProps {
   _id: string;
