@@ -1,50 +1,27 @@
 import styled from '@emotion/styled';
-import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getUserInfo } from '../../_redux/slices/userSlice';
-import { DetailComment } from './DetailComment/DetailComment';
-import { DetailMeetDescription } from './DetailMeetDescription';
-import { DetailPost } from './DetailPost/DetailPost';
-import { DetailTab } from './DetailTab';
-import { useDispatch, useSelector } from '@/_redux/hooks';
-// import { getPostDetail } from '@/_redux/slices/postSlices/getPostSlice';
-import { RootStateType } from '@/_redux/store';
+import { CommentContainer } from './CommentContainer/CommentContainer';
+import { PostContainer } from './PostContainer';
+import PostIdContext from './components/PostIdContext';
+import { useGetPostDetail } from '@/hooks/query/usePost';
 import { StSideMarginWrapper } from '@/style/StSideMarginWrapper';
 import { Spinner } from '@common/index';
-import { IPost } from '@/api/_types/apiModels';
-import { setDetailPostId } from '@/_redux/slices/detailPostIdSlice';
-import { getPostDetail } from '@/_redux/slices/postSlices/getPostSlice';
-import { useGetPostDetail } from '@/hooks/query/usePost';
 
 export const DetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [pageNumber, setPageNumber] = useState(1);
-  const dispatch = useDispatch();
-  const isLogin = useSelector((state: RootStateType) => state.userInfo);
-
-  // const {
-  //   isLoading,
-  //   post: response,
-  //   error :isError,
-  // } = useSelector((state: RootStateType) => state.getPostDetail);
-  const {data, isLoading, isError} = useGetPostDetail<IPost>(id!);
-  const response =data.data
+  const { data, isLoading, isError } = useGetPostDetail(id || '');
+  const response = data.data
   
-  useEffect(() => {
-    if (!id) return;
-    dispatch(setDetailPostId(id))  
-    const handleAPIError = () => {
-      alert('API로부터 데이터를 받아올 때 에러가 발생했습니다.');
-      navigate('/');
-    };
-    if (isError) {
-      handleAPIError();
-    }
-    void dispatch(getUserInfo());//////?
-    void dispatch(getPostDetail(id));
-  }, [isError, navigate, dispatch, id]);
+  // Todo: PostTitle을 파싱한 값이 여러 하위 컴포넌트에서 사용됨
+  // Todo: => data.data.title 값을 파싱해서 컨텍스트에 담아 감싸기
 
+  if (isError) {
+    alert('API로부터 데이터를 받아올 때 에러가 발생했습니다.');
+    navigate('/');
+  }
+
+  // Todo: Suspense 작업 시 수정 예정
   if (isLoading)
     return (
       <>
@@ -55,28 +32,17 @@ export const DetailPage = () => {
     );
 
   return (
-      <StSideMarginWrapper>
-        <StDetailContainer>
-          <DetailMeetDescription postId={id!} />
-          <DetailTab
-            pageNumber={pageNumber}
-            handlePostClick={() => setPageNumber(1)}
-            handleTimeTableClick={() => setPageNumber(2)}
-          />
-          <DetailPost
-            postId= {id!}
-            pageNumber={pageNumber}
-            responseTitle={response.title}
-            loginUser={isLogin.user ?? null}
-          />
-          <hr />
-          <DetailComment
-            postId= {id!}
-            response={response}
-            loginUser={isLogin.user ?? null}
-          />
-        </StDetailContainer>
-      </StSideMarginWrapper>
+    <StSideMarginWrapper>
+      <StDetailContainer>
+        <PostIdContext.Provider value={id || ''}>
+          {/* Post part */}
+          <PostContainer />
+        </PostIdContext.Provider>
+        <hr />
+        {/* Comment part */}
+        <CommentContainer response={response} />
+      </StDetailContainer>
+    </StSideMarginWrapper>
   );
 };
 

@@ -6,20 +6,22 @@ import { deleteApiJWT, postApiJWT } from '@/api/apis';
 import { CreateMeetingModal } from '@/pages/MainPage/Modal/CreateMeetingModal';
 import { Icon } from '@common/index';
 import { useGetPostDetail } from '@/hooks/query/usePost';
+import { useSelector } from '@/_redux/hooks';
+import { RootStateType } from '@/_redux/store';
 // import { useQueryClient } from '@tanstack/react-query';
 // import { IQueryData } from '../DetailMeetDescription';
 
 interface PostIconProps {
   // apiResponse: IPost;
-  loginUser: IUser | null;
   postId: string;
 }
 
-export const PostIcon = ({ loginUser, postId }: PostIconProps) => {
+export const PostIcon = ({  postId }: PostIconProps) => {
   const [isHeart, setIsHeart] = useState('');
   const [isPostOwner, setIsPostOwner] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
+  const loginUser = useSelector((state: RootStateType) => state.userInfo);
 
   // TODO : 여긴 useQueryClient ? useQuery면?
   // const queryClient = useQueryClient();
@@ -27,7 +29,7 @@ export const PostIcon = ({ loginUser, postId }: PostIconProps) => {
   // // if (!data) return <Spinner/>
   // const {_id, author, likes} = data.data
   // useQuery면 됨..ㅇㅅㅇ?
-  const {data} = useGetPostDetail<IPost>(postId);
+  const {data} = useGetPostDetail(postId);
   const {_id, author, likes}=data.data
 
   const handleHeartClick = async (e: MouseEvent<HTMLElement>) => {
@@ -71,7 +73,7 @@ export const PostIcon = ({ loginUser, postId }: PostIconProps) => {
   };
 
   useEffect(() => {
-    const LoginUserId = loginUser && loginUser._id;
+    const LoginUserId = loginUser.user && loginUser.user._id;
     const PostLike = likes as ILike[];
     const result = PostLike?.find((like) => like.user === LoginUserId);
 

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { IPost, IPostTitleCustom } from '@/api/_types/apiModels';
+import { IPostTitleCustom } from '@/api/_types/apiModels';
 import { useGetPostDetail } from '@/hooks/query/usePost';
 
 type PostContentsType = {
@@ -7,13 +7,12 @@ type PostContentsType = {
 };
 
 export const PostContents = ({ postId }: PostContentsType) => {
-  const {data} = useGetPostDetail<IPost>(postId);
+  const {data} = useGetPostDetail(postId);
   const {image, title}=data.data
   const responseTitle = JSON.parse(title) as IPostTitleCustom;
   
   return (
     <>
-      <StPostContainer>
         {image && (
           <StPostImgWrapper>
             <img
@@ -23,7 +22,6 @@ export const PostContents = ({ postId }: PostContentsType) => {
           </StPostImgWrapper>
         )}
         <StPostContents>{responseTitle.contents}</StPostContents>
-      </StPostContainer>
     </>
   );
 };
