@@ -2,11 +2,7 @@ import styled from '@emotion/styled';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CommentContainer } from './CommentContainer/CommentContainer';
 import { PostContainer } from './PostContainer';
-import {
-  postIdContext,
-  postTitleContext,
-} from './components/DetailPostContext';
-import { IPostTitleCustom } from '@/api/_types/apiModels';
+import { postIdContext } from './components/DetailPostContext';
 import { useGetPostDetail } from '@/hooks/query/usePost';
 import { StSideMarginWrapper } from '@/style/StSideMarginWrapper';
 import { Spinner } from '@common/index';
@@ -16,9 +12,6 @@ export const DetailPage = () => {
   const navigate = useNavigate();
   const { data, isLoading, isError } = useGetPostDetail(id || '');
   const response = data.data;
-
-  // Todo: PostTitle을 파싱한 값이 여러 하위 컴포넌트에서 사용됨
-  // Todo: => data.data.title 값을 파싱해서 컨텍스트에 담아 감싸기
 
   if (isError) {
     alert('API로부터 데이터를 받아올 때 에러가 발생했습니다.');
@@ -40,10 +33,7 @@ export const DetailPage = () => {
       <StDetailContainer>
         <postIdContext.Provider value={id || ''}>
           {/* Post part */}
-          <postTitleContext.Provider
-            value={JSON.parse(response?.title) as IPostTitleCustom}>
-            <PostContainer />
-          </postTitleContext.Provider>
+          <PostContainer />
 
           <hr />
           {/* Comment part */}
