@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { getPostData } from './getPostData';
 import { StCardsWrapper } from './profilePageStyles';
 import { IPost, IUser } from '@/api/_types/apiModels';
@@ -9,7 +8,6 @@ import { Card, Spinner } from '@common/index';
 import { useUsersInfo } from '@/hooks/queryHooks';
 
 export const UserJoinCards = ({ userId }: { userId: string }) => {
-  const navigate = useNavigate();
 
   const [allJoinedPosts, setAllJoinedPosts] = useState<IPost[]>([]);
 
@@ -41,11 +39,10 @@ export const UserJoinCards = ({ userId }: { userId: string }) => {
         {!allJoinedPosts ? (
           <Spinner />
         ) : allJoinedPosts.length > 0 ? (
-          allJoinedPosts.map((post, idx) => (
+          allJoinedPosts.map((post) => (
             <Card
-              key={idx}
+              key={post._id}
               cardData={post}
-              handleCardClick={(cardId) => navigate(`/details/${cardId}`)}
             />
           ))
         ) : (

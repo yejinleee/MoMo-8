@@ -36,12 +36,11 @@ export const UnscheduledCards = () => {
         <StCardsWrapper>
           {!error &&
             response &&
-            response.map((post, idx) => {
+            response.map((post) => {
               return (
                 <Card
-                  key={idx}
+                  key={post._id}
                   cardData={post}
-                  handleCardClick={(cardId) => navigate(`/details/${cardId}`)}
                 />
               );
             })}

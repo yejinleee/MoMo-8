@@ -10,7 +10,6 @@ import { Icon, Profile, Tag } from '@common/index';
 
 interface ICardData {
   cardData: IPost;
-  handleCardClick: (cardId: string) => void;
   userId? : string;
 }
 
@@ -20,7 +19,7 @@ const statusValue = {
   Closed: '모임 종료',
 };
 
-export const Card = ({ cardData, handleCardClick,userId }: ICardData) => {
+export const Card = ({ cardData,userId }: ICardData) => {
   const parsedTitle: IPostTitleCustom = parseTitle(cardData.title);
   const [user, setUser] = useState<IUser | void>();
   const navigate = useNavigate();
@@ -99,7 +98,7 @@ export const Card = ({ cardData, handleCardClick,userId }: ICardData) => {
   return (
     <>
       <StCardContainer
-        onClick={() => handleCardClick(cardId)}
+        onClick={() => navigate(`/details/${cardId}`)}
         status={status}>
         <StCardStatus className="card-status">
           {statusValue[statusCheck]}

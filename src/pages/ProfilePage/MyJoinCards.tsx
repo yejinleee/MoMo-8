@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { getPostData } from './getPostData';
 import { StCardsWrapper } from './profilePageStyles';
 import { useSelector } from '@/_redux/hooks';
@@ -10,7 +9,6 @@ import { Card, Spinner } from '@common/index';
 import { useUsersInfo } from '@/hooks/queryHooks';
 
 export const MyJoinCards = () => {
-  const navigate = useNavigate();
   const userInfo = useSelector((state) => state.userInfo.user);
   const [allJoinedPosts, setAllJoinedPosts] = useState<IPost[]>([]);
 
@@ -47,11 +45,10 @@ export const MyJoinCards = () => {
         {isFetched && !allJoinedPosts ? (
           <Spinner />
         ) : allJoinedPosts.length > 0 ? (
-          allJoinedPosts.map((likedPost, idx) => (
+          allJoinedPosts.map((likedPost) => (
             <Card
-              key={idx}
+              key={likedPost._id}
               cardData={likedPost}
-              handleCardClick={(cardId) => navigate(`/details/${cardId}`)}
             />
           ))
         ) : (
