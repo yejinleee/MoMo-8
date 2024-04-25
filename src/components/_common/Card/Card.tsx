@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { MouseEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ILike, IPost, IPostTitleCustom, IUser } from '@/api/_types/apiModels';
+import { ILike, IPost, IPostTitleCustom } from '@/api/_types/apiModels';
 import { deleteApiJWT, postApiJWT } from '@/api/apis';
 import { createNotification } from '@/api/createNotification';
 import { theme } from '@/style/theme';
@@ -21,7 +21,6 @@ const statusValue = {
 
 export const Card = ({ cardData }: ICardData) => {
   const parsedTitle: IPostTitleCustom = parseTitle(cardData.title);
-  const [user, setUser] = useState<IUser | void>();
 
   const navigate = useNavigate();
   const { likes, _id: cardId, author: postAuthor } = cardData;
@@ -46,13 +45,13 @@ export const Card = ({ cardData }: ICardData) => {
   // };
 
   useEffect(() => {
-    // if (typeof cardData.author !== 'string') return;  //왜했지?
+    // if (typeof cardData.author !== 'string') return;  //왜했지??
     likes?.forEach((each) => {
       if (typeof each !== 'string' && each.user === userInfo?._id) {
         setIsLike(each._id);
       }
     });
-    // void fetchUser(cardData.author); // 왜하지?
+    // void fetchUser(cardData.author); // 왜하지??
   }, []);
   const handleIconClick = async (event: MouseEvent<HTMLElement>) => {
     event.stopPropagation();
@@ -102,10 +101,10 @@ export const Card = ({ cardData }: ICardData) => {
           {statusValue[statusCheck]}
         </StCardStatus>
         <StCardProfileWrapper>
-          {typeof postAuthor === 'string' ? (
+          {typeof postAuthor === 'string' ? ( // string인 경우가 언제지??
             <Profile
-              image={user?.image ?? ''}
-              fullName={user?.username ? user.username : author}
+              image={ ''}
+              fullName={ author}
               status="Profile"
               fontSize={12}
               imageSize={14}
@@ -149,22 +148,13 @@ export const Card = ({ cardData }: ICardData) => {
             />
             {tags.length > 1 && <span>...</span>}
           </StCardBottomTagsWrap>
-          {!isLike ? (
-            <Icon
+          <Icon
               name="heart"
+              isFill={!!isLike}
               onIconClick={(e: MouseEvent<HTMLElement>) =>
                 void handleIconClick(e)
               }
             />
-          ) : (
-            <Icon
-              name="heart"
-              isFill={true}
-              onIconClick={(e: MouseEvent<HTMLElement>) =>
-                void handleIconClick(e)
-              }
-            />
-          )}
         </StCardBottom>
       </StCardContainer>
     </>
