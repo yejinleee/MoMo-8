@@ -9,30 +9,20 @@ import { theme } from '@/style/theme';
 import { Button, Profile } from '@common/index';
 
 interface CommentInputProps {
-  // loginUser: IUser | null;
   postId: string;
   postAuthorId: string;
 }
 
-export const CommentInput = ({
-  // loginUser,
-  postId,
-  postAuthorId,
-}: CommentInputProps) => {
+export const CommentInput = ({ postId, postAuthorId }: CommentInputProps) => {
   const loginUser = useSelector((state: RootStateType) => state.userInfo).user;
   const navigate = useNavigate();
   const [text, setText] = useState('');
-  // const dispatch = useDispatch();
 
-  // const handlePostComment = () => {
-  //   const data = { comment: text, postId, postAuthorId };
-  //   void dispatch(postComment(data));
-  // };
   const { mutate } = usePostComment({ comment: text, postId, postAuthorId });
   const handleButtonClick = () => {
     if (!loginUser) {
-      const isUserNeedLogin = confirm('로그인이 필요한 서비스입니다.');
-      isUserNeedLogin && navigate('/login');
+      const isUserWantLogin = confirm('로그인이 필요한 서비스입니다.');
+      isUserWantLogin && navigate('/login');
       return;
     }
 
