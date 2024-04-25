@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
 import { useContext } from 'react';
-import PostIdContext from './components/PostIdContext';
+import { postIdContext } from './components/DetailPostContext';
+import { FormatDate } from './components/FormatDate';
 import { IPost, IPostTitleCustom, IUser } from '@/api/_types/apiModels';
 import { theme } from '@/style/theme';
 import { Profile } from '@common/Profile/Profile';
 import { Spinner } from '@common/index';
 import { useQueryClient } from '@tanstack/react-query';
-import { FormatDate } from './components/FormatDate';
 
 interface IResData {
   postTitle: string;
@@ -22,7 +22,7 @@ export interface IQueryData<T> {
 }
 
 export const PostHeader = () => {
-  const postId = useContext(PostIdContext);
+  const postId = useContext(postIdContext);
   const queryClient = useQueryClient();
   const data = queryClient.getQueryData<IQueryData<IPost>>([
     `posts/${postId}`,

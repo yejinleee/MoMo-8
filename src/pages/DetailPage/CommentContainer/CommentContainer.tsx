@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { useContext } from 'react';
-import PostIdContext from '../components/PostIdContext';
+import { postIdContext } from '../components/DetailPostContext';
 import { CommentInput } from './CommentInput';
 import { CommentList } from './CommentList';
 import { IPost } from '@/api/_types/apiModels';
@@ -10,7 +10,7 @@ interface CommentContainerProps {
 }
 
 export const CommentContainer = ({ response }: CommentContainerProps) => {
-  const postId = useContext(PostIdContext);
+  const postId = useContext(postIdContext);
 
   return (
     <StCommentContainer>
