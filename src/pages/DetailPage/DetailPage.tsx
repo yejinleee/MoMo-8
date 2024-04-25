@@ -38,17 +38,17 @@ export const DetailPage = () => {
   return (
     <StSideMarginWrapper>
       <StDetailContainer>
-        {/* Post part */}
-        <postTitleContext.Provider
-          value={JSON.parse(response?.title) as IPostTitleCustom}>
-          <postIdContext.Provider value={id || ''}>
+        <postIdContext.Provider value={id || ''}>
+          {/* Post part */}
+          <postTitleContext.Provider
+            value={JSON.parse(response?.title) as IPostTitleCustom}>
             <PostContainer />
-          </postIdContext.Provider>
-        </postTitleContext.Provider>
+          </postTitleContext.Provider>
 
-        <hr />
-        {/* Comment part */}
-        <CommentContainer response={response} />
+          <hr />
+          {/* Comment part */}
+          <CommentContainer response={response} />
+        </postIdContext.Provider>
       </StDetailContainer>
     </StSideMarginWrapper>
   );
