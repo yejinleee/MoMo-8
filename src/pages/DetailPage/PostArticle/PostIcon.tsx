@@ -8,11 +8,8 @@ import { Icon } from '@common/index';
 import { useGetPostDetail } from '@/hooks/query/usePost';
 import { useSelector } from '@/_redux/hooks';
 import { RootStateType } from '@/_redux/store';
-// import { useQueryClient } from '@tanstack/react-query';
-// import { IQueryData } from '../DetailMeetDescription';
 
 interface PostIconProps {
-  // apiResponse: IPost;
   postId: string;
 }
 
@@ -23,12 +20,6 @@ export const PostIcon = ({  postId }: PostIconProps) => {
   const navigate = useNavigate();
   const loginUser = useSelector((state: RootStateType) => state.userInfo);
 
-  // TODO : 여긴 useQueryClient ? useQuery면?
-  // const queryClient = useQueryClient();
-  // const data = queryClient.getQueryData<IQueryData<IPost>>([`posts/${postId}`, postId]) // ERROR
-  // // if (!data) return <Spinner/>
-  // const {_id, author, likes} = data.data
-  // useQuery면 됨..ㅇㅅㅇ?
   const {data} = useGetPostDetail(postId);
   const {_id, author, likes}=data.data
 
