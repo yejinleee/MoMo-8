@@ -1,13 +1,24 @@
 import { IPost } from "@/api/_types/apiModels";
 import { getApi } from "@/api/apis";
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseQueries } from "@tanstack/react-query";
 
-export const useUnscheduledCards = (unscheduledChannelId: string) => {
-  return useSuspenseQuery({
-    queryKey: ['unscheduledCards'],
-    queryFn: async ()=>{
-      return await getApi<IPost[]>(`/posts/channel/${unscheduledChannelId}`)
-    },
+export const useGetScheduledCards = (thisWeek: string[]) => {
+  const fetchCard = async(day : string) => {
+    const cardsOfEachDay = await getApi<IPost[]>(
+      `/search/all/meetDate....${day.slice(0, 10)}...:.........."],"people`,
+    );
+    return cardsOfEachDay.data
+  }
+  return useSuspenseQueries({
+    queries: 
+      thisWeek.map((day) => ({
+        queryKey : ['scheduledCard', day],
+        queryFn: () => fetchCard(day),
+        staleTime: Infinity,
+      })),
+    combine : (results) => {
+      return results.map(result => result.data)
+    }
   })
 }
 

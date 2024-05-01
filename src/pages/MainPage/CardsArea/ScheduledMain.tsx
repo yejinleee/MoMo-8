@@ -1,11 +1,10 @@
 import styled from '@emotion/styled';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { StSpinnerWrapper } from '../mainPageStyled.ts';
 import { ScheduledCards } from './ScheduledCards';
-import { IPost } from '@/api/_types/apiModels';
-import { getApi } from '@/api/apis';
 import { dateFormat } from '@/utils/dateFormat';
 import { Button, Spinner } from '@common/index.ts';
+import { useGetScheduledCards } from '@/hooks/query/useCards.ts';
 
 export const ScheduledMain = () => {
   const [page, setPage] = useState(0);
@@ -17,31 +16,18 @@ export const ScheduledMain = () => {
       dateFormat(new Date(new Date(today).setDate(today.getDate() + i + page))),
     );
 
-  const [cardsOfThisweek, setCardsOfThisweek] = useState<IPost[][]>([]);
-
-  useEffect(() => {
-    setCardsOfThisweek([] as IPost[][]);
-    const getCardsOfWeek = async () => {
-      for (const day of thisWeek) {
-        const cardsOfEachDay = await getApi<IPost[]>(
-          `/search/all/meetDate....${day.slice(0, 10)}...:.........."],"people`,
-        );
-        setCardsOfThisweek((prev) => [...prev, cardsOfEachDay?.data]);
-      }
-    };
-    void getCardsOfWeek();
-  }, [page]);
+  const scheduledCards = useGetScheduledCards(thisWeek);
 
   return (
     <>
-      {cardsOfThisweek.length !== 7 ? (
+      {scheduledCards.length !== 7 ? (
         <StSpinnerWrapper>
           <Spinner size={50} />
         </StSpinnerWrapper>
       ) : (
         <>
           <ScheduledCards
-            cards={cardsOfThisweek}
+            cards={scheduledCards}
             thisWeek={thisWeek}
           />
           <StButtonsWrapper>
