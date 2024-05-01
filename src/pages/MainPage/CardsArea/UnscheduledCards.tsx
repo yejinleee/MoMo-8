@@ -2,20 +2,16 @@ import styled from '@emotion/styled';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CreateMeetingModal } from '../Modal/CreateMeetingModal';
-import { unscheduledChannelId } from '../channelId';
-import { StSpinnerWrapper } from '../mainPageStyled.ts';
 import { useSelector } from '@/_redux/hooks';
-import { IPost } from '@/api/_types/apiModels';
-import { getApi } from '@/api/apis';
-import useAxios from '@/api/useAxios';
-import { Card, Icon, Spinner } from '@common/index.ts';
+import { Card, Icon } from '@common/index.ts';
+import { useGetUnscheduledCards } from '@/hooks/query/useCards.ts';
 
 export const UnscheduledCards = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { response, error, isLoading } = useAxios<IPost[]>(() =>
-    getApi(`/posts/channel/${unscheduledChannelId}`),
-  );
+  const {data, isError} = useGetUnscheduledCards();
+  const response = data.data;
+
   const navigate = useNavigate();
   const userInfo = useSelector((state) => state.userInfo.user);
   const handleModalOpen = () => {
@@ -26,17 +22,10 @@ export const UnscheduledCards = () => {
     setIsModalOpen(true);
   };
 
-  if (isLoading){
-    return(
-      <StSpinnerWrapper>
-        <Spinner size={50} />
-      </StSpinnerWrapper>
-    )
-  }
   return (
     <>
         <StCardsWrapper>
-          {!error &&
+          {!isError &&
             response &&
             response.map((post) => {
               return (
