@@ -26,13 +26,15 @@ export const UnscheduledCards = () => {
     setIsModalOpen(true);
   };
 
+  if (isLoading){
+    return(
+      <StSpinnerWrapper>
+        <Spinner size={50} />
+      </StSpinnerWrapper>
+    )
+  }
   return (
     <>
-      {isLoading ? (
-        <StSpinnerWrapper>
-          <Spinner size={50} />
-        </StSpinnerWrapper>
-      ) : (
         <StCardsWrapper>
           {!error &&
             response &&
@@ -51,7 +53,6 @@ export const UnscheduledCards = () => {
             />
           </StAddWrapper>
         </StCardsWrapper>
-      )}
       <CreateMeetingModal
         visible={isModalOpen}
         onClose={() => setIsModalOpen(false)}>

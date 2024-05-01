@@ -17,7 +17,7 @@ import type { IPost, IPostTitleCustom } from '@/api/_types/apiModels';
 import { theme } from '@/style/theme';
 import { createIVote } from '@/utils/createIVote';
 import { getDatesBetween } from '@/utils/getDatesBetween';
-import { Button, Icon, InputCompound, Spinner } from '@common/index';
+import { Button, Icon, InputCompound } from '@common/index';
 import { usePutPostDetail } from '@/hooks/query/usePost';
 
 interface CreateMeetingModalProps extends HTMLAttributes<HTMLDivElement> {
@@ -39,7 +39,7 @@ export const CreateMeetingModal = ({
   ...props
 }: CreateMeetingModalProps): ReactElement => {
   const dispatch = useDispatch();
-  const { isLoading, user } = useSelector((state) => state.userInfo);
+  const { user } = useSelector((state) => state.userInfo);
   const { allUsers } = useSelector((state) => state.allUsers);
   const { isLoading: isPostLoading, post: createdPost } = useSelector(
     (state) => state.getPostDetail,
@@ -252,8 +252,6 @@ export const CreateMeetingModal = ({
       }
     }
   }, [dateToPass, visible, post]);
-
-  if (isLoading) return <Spinner />;
 
   return (
     <StBackgroundDim style={{ display: visible ? 'block' : 'none' }}>
