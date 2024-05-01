@@ -21,11 +21,8 @@ export const DetailPage = () => {
     <StSideMarginWrapper>
       <StDetailContainer>
         <postIdContext.Provider value={id || ''}>
-          {/* Post part */}
           <PostContainer />
-
           <hr />
-          {/* Comment part */}
           <CommentContainer response={response} />
         </postIdContext.Provider>
       </StDetailContainer>

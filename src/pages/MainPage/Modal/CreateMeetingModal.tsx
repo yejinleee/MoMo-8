@@ -117,7 +117,6 @@ export const CreateMeetingModal = ({
             : '',
       };
       alert('수정이 완료 되었습니다.');
-      // void dispatch(putPost(data));
       mutate(data)
       if (onClose) onClose();
     } else {

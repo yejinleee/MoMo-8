@@ -10,7 +10,6 @@ import { UserJoinCards } from './UserJoinCards';
 import { useDispatch, useSelector } from '@/_redux/hooks';
 import { getUserInfo } from '@/_redux/slices/userSlice';
 import { IUser } from '@/api/_types/apiModels';
-// import { getApi } from '@/api/apis';
 import { StSideMarginWrapper } from '@/style/StSideMarginWrapper';
 import { Button, Profile } from '@common/index';
 import { useUsersInfo } from '@/hooks/queryHooks';
@@ -28,16 +27,10 @@ export const ProfilePage = () => {
     void dispatch(getUserInfo());
   }, []);
 
-  // const [response, setResponse] = useState<IUser>({} as IUser);
-  // const fetching = async () => {
-  //   const res = await getApi<IUser>(`/users/${id}`);
-  //   setResponse(res.data);
-  // };
   const {data} = useUsersInfo<IUser>(id)
   const response = data?.data  /// '?' 
 
   useEffect(() => {
-    // void fetching();
     if (userInfo?._id !== id) {
       setTabNumber(4);
     } else {

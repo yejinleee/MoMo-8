@@ -3,8 +3,6 @@ import { getPostData } from './getPostData';
 import { StCardsWrapper } from './profilePageStyles';
 import { useSelector } from '@/_redux/hooks';
 import { IPost, IUser } from '@/api/_types/apiModels';
-// import { getApi } from '@/api/apis';
-// import useAxios from '@/api/useAxios';
 import { Card, Spinner } from '@common/index';
 import { useUsersInfo } from '@/hooks/queryHooks';
 
@@ -12,9 +10,6 @@ export const MyJoinCards = () => {
   const userInfo = useSelector((state) => state.userInfo.user);
   const [allJoinedPosts, setAllJoinedPosts] = useState<IPost[]>([]);
 
-  // const { response, error, isLoading } = useAxios<IUser>(() =>
-  //   getApi(`/users/${userInfo?._id}`),
-  // );
   const {data, isError, isFetching, isFetched} = useUsersInfo<IUser>(userInfo?._id)
   const response = data.data
   
