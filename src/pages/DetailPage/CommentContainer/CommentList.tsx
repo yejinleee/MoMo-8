@@ -25,7 +25,6 @@ export const CommentList = ({ comments, postId }: CommentListProps) => {
   const handleDeleteClick = (id: string) => {
     const isDelete = confirm('댓글을 삭제하시겠습니까?');
     if (!isDelete) return;
-    // void dispatch(deleteComment(id));
     mutate(id);
   };
   return (

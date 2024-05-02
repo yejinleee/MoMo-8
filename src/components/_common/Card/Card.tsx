@@ -1,17 +1,16 @@
 import styled from '@emotion/styled';
 import { MouseEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ILike, IPost, IPostTitleCustom, IUser } from '@/api/_types/apiModels';
-import { deleteApiJWT, getApi, postApiJWT } from '@/api/apis';
+import { ILike, IPost, IPostTitleCustom } from '@/api/_types/apiModels';
+import { deleteApiJWT, postApiJWT } from '@/api/apis';
 import { createNotification } from '@/api/createNotification';
 import { theme } from '@/style/theme';
 import { parseTitle } from '@/utils/parseTitle';
 import { Icon, Profile, Tag } from '@common/index';
+import { useSelector } from '@/_redux/hooks';
 
 interface ICardData {
   cardData: IPost;
-  handleCardClick: (cardId: string) => void;
-  userId? : string;
 }
 
 const statusValue = {
@@ -20,12 +19,13 @@ const statusValue = {
   Closed: '모임 종료',
 };
 
-export const Card = ({ cardData, handleCardClick,userId }: ICardData) => {
+export const Card = ({ cardData }: ICardData) => {
   const parsedTitle: IPostTitleCustom = parseTitle(cardData.title);
-  const [user, setUser] = useState<IUser | void>();
+
   const navigate = useNavigate();
   const { likes, _id: cardId, author: postAuthor } = cardData;
   const { postTitle, status, tags, meetDate, author } = parsedTitle;
+  const userInfo = useSelector((state) => state.userInfo.user);
 
   const statusCheck =
     meetDate.length === 1 &&
@@ -33,32 +33,29 @@ export const Card = ({ cardData, handleCardClick,userId }: ICardData) => {
       ? 'Closed'
       : 'Opened';
 
-  let isLiked = '';
-  likes?.forEach((each) => {
-    if (typeof each !== 'string' && each.user === userId) {
-      isLiked = each._id;
-    }
-  });
+  const [isLike, setIsLike] = useState('');
+  
+  // const fetchUser = async (id: string) => { 
+  //   try {
+  //     const res = await getApi<IUser>(`/users/${id}`);
+  //     setUser(res.data);
+  //   } catch (err) {
+  //     console.error('Failed to fetch user:', err);
+  //   }
+  // };
 
-  const fetchUser = async (id: string) => {
-    try {
-      const res = await getApi<IUser>(`/users/${id}`);
-      setUser(res.data);
-    } catch (err) {
-      console.error('Failed to fetch user:', err);
-    }
-  };
-
-  const [isLike, setIsLike] = useState(isLiked);
   useEffect(() => {
-    setIsLike(isLiked);
-    if (typeof cardData.author !== 'string') return;
-    void fetchUser(cardData.author);
-  }, [isLiked, cardData.author]);
-
+    // if (typeof cardData.author !== 'string') return;  //왜했지??
+    likes?.forEach((each) => {
+      if (typeof each !== 'string' && each.user === userInfo?._id) {
+        setIsLike(each._id);
+      }
+    });
+    // void fetchUser(cardData.author); // 왜하지??
+  }, []);
   const handleIconClick = async (event: MouseEvent<HTMLElement>) => {
     event.stopPropagation();
-    if (!userId) {
+    if (!userInfo?._id) {
       if (confirm('로그인이 필요한 서비스입니다.')) {
         navigate('/login');
       }
@@ -95,20 +92,19 @@ export const Card = ({ cardData, handleCardClick,userId }: ICardData) => {
         ? theme.colors.primaryBlue.default
         : theme.colors.secondaryNavy.default,
   };
-
   return (
     <>
       <StCardContainer
-        onClick={() => handleCardClick(cardId)}
+        onClick={() => navigate(`/details/${cardId}`)}
         status={status}>
         <StCardStatus className="card-status">
           {statusValue[statusCheck]}
         </StCardStatus>
         <StCardProfileWrapper>
-          {typeof postAuthor === 'string' ? (
+          {typeof postAuthor === 'string' ? ( // string인 경우가 언제지??
             <Profile
-              image={user?.image ?? ''}
-              fullName={user?.username ? user.username : author}
+              image={ ''}
+              fullName={ author}
               status="Profile"
               fontSize={12}
               imageSize={14}
@@ -152,22 +148,13 @@ export const Card = ({ cardData, handleCardClick,userId }: ICardData) => {
             />
             {tags.length > 1 && <span>...</span>}
           </StCardBottomTagsWrap>
-          {!isLike ? (
-            <Icon
+          <Icon
               name="heart"
+              isFill={!!isLike}
               onIconClick={(e: MouseEvent<HTMLElement>) =>
                 void handleIconClick(e)
               }
             />
-          ) : (
-            <Icon
-              name="heart"
-              isFill={true}
-              onIconClick={(e: MouseEvent<HTMLElement>) =>
-                void handleIconClick(e)
-              }
-            />
-          )}
         </StCardBottom>
       </StCardContainer>
     </>

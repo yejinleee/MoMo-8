@@ -37,12 +37,11 @@ export const ScheduledCards = ({ cards, thisWeek }: ScheduledCardsProps) => {
               <div>{days[new Date(date).getDay()]}</div>
             </StDayWrapper>
             <StCardsWrapper>
-              {cards[i].map((post: IPost, idx) => {
+              {cards[i].map((post: IPost) => {
                 return (
                   <Card
-                    key={idx}
+                    key={post._id}
                     cardData={post}
-                    handleCardClick={(cardId) => navigate(`/details/${cardId}`)}
                   />
                 );
               })}
