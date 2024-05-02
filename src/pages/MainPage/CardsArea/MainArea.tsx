@@ -1,9 +1,10 @@
 import styled from '@emotion/styled';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { ScheduledMain } from './ScheduledMain';
-import { UnsheduledCards } from './UnsheduledCards';
+import { UnscheduledCards } from './UnscheduledCards';
 import { getItem, setItem } from '@/utils/storage';
 import { Tab } from '@common/index';
+import { FallbackSpinner } from '@common/Fallback/FallbackSpinner';
 
 export const MainArea = () => {
   const [, setSelectedTab] = useState(getItem('mainTab', 0));
@@ -30,7 +31,9 @@ export const MainArea = () => {
         />
       </StTabsWrapper>
       <div>
-        {getItem('mainTab', 0) === 0 ? <UnsheduledCards /> : <ScheduledMain />}
+        <Suspense fallback={<FallbackSpinner />}>
+          {getItem('mainTab', 0) === 0 ? <UnscheduledCards /> : <ScheduledMain />}
+        </Suspense>
       </div>
     </div>
   );

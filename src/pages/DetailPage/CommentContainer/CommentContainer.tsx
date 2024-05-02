@@ -1,20 +1,22 @@
 import styled from '@emotion/styled';
+import { useContext } from 'react';
+import { postIdContext } from '../components/DetailPostContext';
 import { CommentInput } from './CommentInput';
 import { CommentList } from './CommentList';
-import { IPost, IUser } from '@/api/_types/apiModels';
+import { IPost } from '@/api/_types/apiModels';
 
-interface DetailCommentProps {
+interface CommentContainerProps {
   response: IPost;
-  loginUser: IUser | null;
 }
 
-export const DetailComment = ({ response, loginUser }: DetailCommentProps) => {
+export const CommentContainer = ({ response }: CommentContainerProps) => {
+  const postId = useContext(postIdContext);
+
   return (
     <StCommentContainer>
       <StCommentPicket>댓글</StCommentPicket>
       <CommentInput
-        loginUser={loginUser}
-        postId={response._id}
+        postId={postId}
         postAuthorId={
           typeof response.author === 'string'
             ? response.author
@@ -22,8 +24,8 @@ export const DetailComment = ({ response, loginUser }: DetailCommentProps) => {
         }
       />
       <CommentList
-        loginUser={loginUser}
         comments={response.comments}
+        postId={postId}
       />
     </StCommentContainer>
   );

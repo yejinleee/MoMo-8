@@ -7,7 +7,7 @@ interface DetailTabProps {
   handleTimeTableClick: () => void;
 }
 
-export const DetailTab = ({
+export const PostTab = ({
   pageNumber,
   handlePostClick,
   handleTimeTableClick,

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { getPostData } from './getPostData';
 import { StCardsWrapper } from './profilePageStyles';
 import { useSelector } from '@/_redux/hooks';
@@ -7,7 +6,6 @@ import { IPost } from '@/api/_types/apiModels';
 import { Card, Spinner } from '@common/index';
 
 export const MyLikesCards = () => {
-  const navigate = useNavigate();
   const userInfo = useSelector((state) => state.userInfo.user);
   const [allLikedPosts, setAllLikedPosts] = useState<IPost[]>([]);
 
@@ -29,11 +27,10 @@ export const MyLikesCards = () => {
         {!allLikedPosts ? (
           <Spinner />
         ) : allLikedPosts.length > 0 ? (
-          allLikedPosts.map((likedPost, idx) => (
+          allLikedPosts.map((likedPost) => (
             <Card
-              key={idx}
+              key={likedPost._id}
               cardData={likedPost}
-              handleCardClick={(cardId) => navigate(`/details/${cardId}`)}
             />
           ))
         ) : (

@@ -5,17 +5,23 @@ import { ILike, IPost, IUser } from '@/api/_types/apiModels';
 import { deleteApiJWT, postApiJWT } from '@/api/apis';
 import { CreateMeetingModal } from '@/pages/MainPage/Modal/CreateMeetingModal';
 import { Icon } from '@common/index';
+import { useGetPostDetail } from '@/hooks/query/usePost';
+import { useSelector } from '@/_redux/hooks';
+import { RootStateType } from '@/_redux/store';
 
 interface PostIconProps {
-  apiResponse: IPost;
-  loginUser: IUser | null;
+  postId: string;
 }
 
-export const PostIcon = ({ loginUser, apiResponse }: PostIconProps) => {
+export const PostIcon = ({  postId }: PostIconProps) => {
   const [isHeart, setIsHeart] = useState('');
   const [isPostOwner, setIsPostOwner] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
+  const loginUser = useSelector((state: RootStateType) => state.userInfo);
+
+  const {data} = useGetPostDetail(postId);
+  const {_id, author, likes}=data.data
 
   const handleHeartClick = async (e: MouseEvent<HTMLElement>) => {
     e.stopPropagation();
@@ -25,7 +31,7 @@ export const PostIcon = ({ loginUser, apiResponse }: PostIconProps) => {
       return;
     }
     if (!isHeart) {
-      await postApiJWT<ILike>('/likes/create', { postId: apiResponse._id })
+      await postApiJWT<ILike>('/likes/create', { postId: _id })
         .then((res) => {
           setIsHeart(res.data._id);
         })
@@ -46,7 +52,7 @@ export const PostIcon = ({ loginUser, apiResponse }: PostIconProps) => {
     const isPostDelete = confirm('정말 삭제하시겠습니까?');
     if (!isPostDelete) return;
 
-    await deleteApiJWT<IPost>('/posts/delete', { id: apiResponse._id });
+    await deleteApiJWT<IPost>('/posts/delete', { id: _id });
 
     alert('삭제되었습니다.');
     navigate('/');
@@ -58,13 +64,13 @@ export const PostIcon = ({ loginUser, apiResponse }: PostIconProps) => {
   };
 
   useEffect(() => {
-    const LoginUserId = loginUser && loginUser._id;
-    const PostLike = apiResponse.likes as ILike[];
+    const LoginUserId = loginUser.user && loginUser.user._id;
+    const PostLike = likes as ILike[];
     const result = PostLike?.find((like) => like.user === LoginUserId);
 
     setIsHeart(result ? result._id : '');
-    setIsPostOwner(LoginUserId === (apiResponse.author as IUser)._id);
-  }, [loginUser, apiResponse]);
+    setIsPostOwner(LoginUserId === (author as IUser)._id);
+  }, [loginUser]);
 
   return (
     <>
@@ -97,7 +103,7 @@ export const PostIcon = ({ loginUser, apiResponse }: PostIconProps) => {
         )}
       </StIconContainer>
       <CreateMeetingModal
-        post={apiResponse}
+        post={data.data}
         visible={isModalOpen}
         onClose={() => setIsModalOpen(false)}>
         <button onClick={() => setIsModalOpen(false)}>Close</button>

@@ -1,8 +1,12 @@
 import styled from '@emotion/styled';
-import { FormatDate } from './FormatDate';
-import { IPost, IPostTitleCustom, IUser } from '@/api/_types/apiModels';
+import { useContext } from 'react';
+import { postIdContext } from './components/DetailPostContext';
+import { FormatDate } from './components/FormatDate';
 import { theme } from '@/style/theme';
 import { Profile } from '@common/Profile/Profile';
+import { Spinner } from '@common/index';
+import { IPostTitleCustom, IUser } from '@/api/_types/apiModels';
+import { useGetPostDetail } from '@/hooks/query/usePost';
 
 interface IResData {
   postTitle: string;
@@ -13,18 +17,28 @@ interface IResData {
   fullName: string;
 }
 
-type DetailMeetDescriptionType = {
-  response: IPost;
-};
+export interface IQueryData<T> {
+  data: T;
+}
 
-export const DetailMeetDescription = ({
-  response,
-}: DetailMeetDescriptionType) => {
-  const responseTitle = JSON.parse(response.title) as IPostTitleCustom;
-  const responseAuthor = response.author as IUser;
+export const PostHeader = () => {
+  const postId = useContext(postIdContext);
+
+  const {data} = useGetPostDetail(postId);
+  if (!data) return <Spinner />;
+  const { title, createdAt, author } = data.data;
+
+  // Todo: 위 코드와 아래 주석 코드 중, 조금 더 효율이 좋은 방법 중 하나로 수정 예정
+  // const { data: response, isFetched } = usePostDetail(id || '');
+  // if (!isFetched) return null;
+  // const parsedTitle = JSON.parse(response?.title) as IPostTitleCustom;
+  // const responseAuthor = (response?.author as IUser) || {};
+
+  const responseTitle = JSON.parse(title) as IPostTitleCustom;
+  const responseAuthor = author as IUser;
   const resData: IResData = {
     postTitle: responseTitle.postTitle,
-    createdAt: FormatDate(response.createdAt),
+    createdAt: FormatDate(createdAt),
     image: responseAuthor?.image || '',
     _id: responseAuthor._id,
     username: responseAuthor?.username ? responseAuthor.username : '',

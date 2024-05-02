@@ -11,13 +11,13 @@ import { createFormData } from '@/utils/createFormData';
 import { parseTitle } from '@/utils/parseTitle';
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-interface IpostCommentParams {
+export interface IpostCommentParams {
   comment: string;
   postId: string;
   postAuthorId: string;
 }
 
-interface IputPostBody {
+export interface IputPostBody {
   title: string | IPostTitleCustom;
   postId: string;
   image: File | null;

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
-import { IVote } from '../TimeTable/TimeTable';
+import { IVote } from '../PostArticle/TimeTable/TimeTable';
 
 interface IuseVotingTimeTable {
   userId: string;
