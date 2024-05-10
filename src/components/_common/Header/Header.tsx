@@ -53,6 +53,8 @@ const StHeaderWrapper = styled.header`
   background-color: ${({ theme }) => theme.colors.background.default};
   border-bottom: 1px solid ${({ theme }) => theme.colors.grey.light};
   z-index: 99;
+  display: flex;
+  justify-content: center;
 `;
 
 const StContainer = styled.div`
