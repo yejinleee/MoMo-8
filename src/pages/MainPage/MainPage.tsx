@@ -18,9 +18,7 @@ export const MainPage = () => {
         <OnlineUsers></OnlineUsers>
         <SearchBox></SearchBox>
       </StMainSide>
-      <StMainArea>
-        <MainArea />
-      </StMainArea>
+      <MainArea />
     </StMainPageWrapper>
   );
 };
@@ -30,9 +28,9 @@ const StMainPageWrapper = styled.div`
   padding: 20px 0px;
   box-sizing: border-box;
 `;
-const StMainSide = styled.div`
+const StMainSide = styled.aside`
   width: 300px;
-  height: calc(100vh - 100px);
+  // height: calc(100vh - 100px);
   max-height: 800px;
   overflow-y: scroll;
   -ms-overflow-style: none;
@@ -44,7 +42,4 @@ const StMainSide = styled.div`
     display: none;
   }
 `;
-const StMainArea = styled.div`
-  margin-left: 50px;
-  flex-grow: 1;
-`;
+

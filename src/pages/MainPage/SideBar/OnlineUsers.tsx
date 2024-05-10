@@ -99,7 +99,7 @@ export const OnlineUsers = () => {
   );
 };
 
-export const StSideBlockWrapper = styled.div`
+export const StSideBlockWrapper = styled.article`
   box-sizing: border-box;
   border: 1px solid ${({ theme }) => theme.colors.grey.bright};
   padding: 10px 16px;

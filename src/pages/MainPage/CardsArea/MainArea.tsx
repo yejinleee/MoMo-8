@@ -13,7 +13,7 @@ export const MainArea = () => {
     setItem('mainTab', tab);
   };
   return (
-    <div>
+    <StMainArea>
       <StTabsWrapper>
         <Tab
           label="언제 모일래?"
@@ -35,10 +35,14 @@ export const MainArea = () => {
           {getItem('mainTab', 0) === 0 ? <UnscheduledCards /> : <ScheduledMain />}
         </Suspense>
       </div>
-    </div>
+    </StMainArea>
   );
 };
 
+const StMainArea = styled.section`
+  margin-left: 50px;
+  flex-grow: 1;
+`;
 const StTabsWrapper = styled.div`
   display: flex;
   gap: 10px;
