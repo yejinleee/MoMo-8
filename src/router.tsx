@@ -12,6 +12,7 @@ import { SignUpPage } from './pages/SignupPage/SignupPage';
 import { Header } from '@common/index';
 import { Suspense } from 'react';
 import { FallbackSpinner } from '@common/Fallback/FallbackSpinner';
+import { StMainWrapper } from './style/StMainWrapper';
 
 const preventLoginLoader = () => {
   const {
@@ -33,7 +34,9 @@ export const router = createBrowserRouter([
         element: (
           <>
             <Header />
-            <Outlet />
+            <StMainWrapper>
+              <Outlet />
+            </StMainWrapper>
           </>
         ),
         children: [

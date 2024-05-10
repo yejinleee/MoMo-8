@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import { MainArea } from './CardsArea/MainArea';
 import { OnlineUsers } from './SideBar/OnlineUsers';
 import { SearchBox } from './SideBar/SearchBox';
-import { StSideMarginWrapper } from '@/style/StSideMarginWrapper';
 import { useEffect } from 'react';
 import { getUserInfo } from '@/_redux/slices/userSlice';
 import { useDispatch } from '@/_redux/hooks';
@@ -14,21 +13,19 @@ export const MainPage = () => {
   }, []);  
 
   return (
-    <StSideMarginWrapper>
-      <StMainWrapper>
-        <StMainSide>
-          <OnlineUsers></OnlineUsers>
-          <SearchBox></SearchBox>
-        </StMainSide>
-        <StMainArea>
-          <MainArea />
-        </StMainArea>
-      </StMainWrapper>
-    </StSideMarginWrapper>
+    <StMainPageWrapper>
+      <StMainSide>
+        <OnlineUsers></OnlineUsers>
+        <SearchBox></SearchBox>
+      </StMainSide>
+      <StMainArea>
+        <MainArea />
+      </StMainArea>
+    </StMainPageWrapper>
   );
 };
 
-const StMainWrapper = styled.div`
+const StMainPageWrapper = styled.div`
   display: flex;
   padding: 20px 0px;
   box-sizing: border-box;

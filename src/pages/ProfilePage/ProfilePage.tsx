@@ -10,7 +10,7 @@ import { UserJoinCards } from './UserJoinCards';
 import { useDispatch, useSelector } from '@/_redux/hooks';
 import { getUserInfo } from '@/_redux/slices/userSlice';
 import { IUser } from '@/api/_types/apiModels';
-import { StSideMarginWrapper } from '@/style/StSideMarginWrapper';
+import { StMainWrapper } from '@/style/StMainWrapper';
 import { Button, Profile } from '@common/index';
 import { useUsersInfo } from '@/hooks/queryHooks';
 import { FallbackSpinner } from '@common/Fallback/FallbackSpinner';
@@ -39,7 +39,7 @@ export const ProfilePage = () => {
   }, [id]);
 
   return (
-    <StSideMarginWrapper>
+    <StMainWrapper>
       {isModalOpen && (
         <StModalBackdrop onClick={() => setModalOpen(false)}>
           <StModalContent onClick={(e) => e.stopPropagation()}>
@@ -102,7 +102,7 @@ export const ProfilePage = () => {
           {tabNumber === 5 &&  <UserJoinCards userId={id || ''} />}
         </Suspense>
       </StProfileWrapper>
-    </StSideMarginWrapper>
+    </StMainWrapper>
   );
 };
 

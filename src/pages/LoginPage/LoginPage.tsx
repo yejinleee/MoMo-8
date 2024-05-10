@@ -6,7 +6,6 @@ import { getUserInfo } from '@/_redux/slices/userSlice';
 import { IUser } from '@/api/_types/apiModels';
 import { postApi } from '@/api/apis';
 import logo from '@/assets/logo.png';
-import { StSideMarginWrapper } from '@/style/StSideMarginWrapper';
 import { theme } from '@/style/theme';
 import { getItem, setItem } from '@/utils/storage';
 import { Button, InputCompound } from '@common/index';
@@ -52,7 +51,7 @@ export const LoginPage = () => {
   };
 
   return (
-    <StSideMarginWrapper>
+    <>
       <StLoginContainer>
         <StDescriptionContainer>
           <StDescriptionLogo>
@@ -101,7 +100,7 @@ export const LoginPage = () => {
           </StSignupLink>
         </StLoginFormContainer>
       </StLoginContainer>
-    </StSideMarginWrapper>
+    </>
   );
 };
 

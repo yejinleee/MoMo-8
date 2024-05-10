@@ -10,7 +10,6 @@ import {
 import { useSelector } from '@/_redux/hooks';
 import { postApi } from '@/api/apis';
 import logo from '@/assets/logo.png';
-import { StSideMarginWrapper } from '@/style/StSideMarginWrapper';
 import { theme } from '@/style/theme';
 import { getItem } from '@/utils/storage';
 import { Button, InputCompound } from '@common/index';
@@ -113,7 +112,6 @@ export const SignUpPage = () => {
   };
 
   return (
-    <StSideMarginWrapper>
       <StSignUpContainer>
         <StDescriptionContainer>
           <StDescriptionLogo>
@@ -198,7 +196,6 @@ export const SignUpPage = () => {
           <StLoginLink onClick={() => navigate('/login')}>로그인</StLoginLink>
         </StSignUpFormContainer>
       </StSignUpContainer>
-    </StSideMarginWrapper>
   );
 };
 

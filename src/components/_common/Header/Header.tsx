@@ -11,49 +11,40 @@ export const Header = () => {
   const isLogin = useSelector((state) => state.userInfo.user);
 
   return (
-    <StWrapper>
-      <StFixedContainer>
-        <StContainer>
-          <StLogo onClick={() => navigate('/')}>
-            <img
-              style={{ height: '30px' }}
-              src={logo}
-            />
-            <div
-              style={{
-                fontFamily: 'seolleimcool-SemiBold',
-                minWidth: '100px',
-                marginLeft: '10px',
-              }}>
-              모두의 모임
-            </div>
-          </StLogo>
-          {isLogin ? (
-            <Menu />
-          ) : (
-            <>
-              <Button
-                color="BLUE"
-                isOutline={true}
-                width={70}
-                height={30}
-                label="로그인"
-                handleButtonClick={() => navigate('/login')}
-              />
-            </>
-          )}
-        </StContainer>
-      </StFixedContainer>
-    </StWrapper>
+    <StHeaderWrapper>
+      <StContainer>
+        <StLogo onClick={() => navigate('/')}>
+          <img
+            style={{ height: '30px' }}
+            src={logo}
+          />
+          <div
+            style={{
+              fontFamily: 'seolleimcool-SemiBold',
+              minWidth: '100px',
+              marginLeft: '10px',
+            }}>
+            모두의 모임
+          </div>
+        </StLogo>
+        {isLogin ? (
+          <Menu />
+        ) : (
+          <Button
+            color="BLUE"
+            isOutline={true}
+            width={70}
+            height={30}
+            label="로그인"
+            handleButtonClick={() => navigate('/login')}
+          />
+        )}
+      </StContainer>
+    </StHeaderWrapper>
   );
 };
 
-const StWrapper = styled.div`
-  position: relative;
-  height: ${({ theme }) => theme.sizes.headerHeight};
-`;
-
-const StFixedContainer = styled.div`
+const StHeaderWrapper = styled.header`
   position: fixed;
   top: 0;
   left: 0;
@@ -61,10 +52,6 @@ const StFixedContainer = styled.div`
   height: ${({ theme }) => theme.sizes.headerHeight};
   background-color: ${({ theme }) => theme.colors.background.default};
   border-bottom: 1px solid ${({ theme }) => theme.colors.grey.light};
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
   z-index: 99;
 `;
 
