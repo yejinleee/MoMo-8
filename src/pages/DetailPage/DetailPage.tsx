@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CommentContainer } from './CommentContainer/CommentContainer';
 import { PostContainer } from './PostContainer';
@@ -17,16 +16,11 @@ export const DetailPage = () => {
   }
 
   return (
-    <StDetailContainer>
-      <postIdContext.Provider value={id || ''}>
-        <PostContainer />
-        <hr />
-        <CommentContainer response={response} />
-      </postIdContext.Provider>
-    </StDetailContainer>
+    <postIdContext.Provider value={id || ''}>
+      <PostContainer />
+      <hr />
+      <CommentContainer response={response} />
+    </postIdContext.Provider>
   );
 };
 
-const StDetailContainer = styled.div`
-  padding: 32px;
-`;
