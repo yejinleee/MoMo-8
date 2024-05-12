@@ -29,19 +29,20 @@ export const Header = () => {
               모두의 모임
             </div>
           </StLogo>
-          {isLogin ? (
-            <Menu />
-          ) : (
-            <Button
-              color="BLUE"
-              isOutline={true}
-              width={70}
-              height={30}
-              label="로그인"
-              handleButtonClick={() => navigate('/login')}
-            />
-          )}
         </Link>
+
+        {isLogin ? (
+          <Menu />
+        ) : (
+          <Button
+            color="BLUE"
+            isOutline={true}
+            width={70}
+            height={30}
+            label="로그인"
+            handleButtonClick={() => navigate('/login')}
+          />
+        )}
       </StContainer>
     </StHeaderWrapper>
   );
