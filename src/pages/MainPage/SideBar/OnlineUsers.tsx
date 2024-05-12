@@ -78,21 +78,22 @@ export const OnlineUsers = () => {
       </div>
       <StOnlineUserUl>
         {searchedUsers &&
-          searchedUsers.map((user, idx) => (
-            <Profile
-              key={idx}
-              image={user.image || ''}
-              fullName={user.username || user.fullName}
-              _id={user._id}
-              status="Profile"
-              fontSize={14}
-              imageSize={22}
-              style={{
-                borderRadius: ' 10px',
-                padding: '2px 0px',
-                color: user.isOnline ? 'black' : theme.colors.grey.default,
-              }}
-            />
+          searchedUsers.map((user) => (
+            <li key={user._id}>
+              <Profile
+                image={user.image || ''}
+                fullName={user.username || user.fullName}
+                _id={user._id}
+                status="Profile"
+                fontSize={14}
+                imageSize={22}
+                style={{
+                  borderRadius: '10px',
+                  padding: '2px 0px',
+                  color: user.isOnline ? 'black' : theme.colors.grey.default,
+                }}
+              />
+            </li>
           ))}
       </StOnlineUserUl>
     </StSideBlockWrapper>
