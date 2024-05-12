@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Menu } from './Menu/Menu';
 import './header.css';
 import { useSelector } from '@/_redux/hooks';
@@ -13,33 +13,35 @@ export const Header = () => {
   return (
     <StHeaderWrapper>
       <StContainer>
-        <StLogo onClick={() => navigate('/')}>
-          <img
-            style={{ height: '30px' }}
-            src={logo}
-            alt="모모"
-          />
-          <div
-            style={{
-              fontFamily: 'seolleimcool-SemiBold',
-              minWidth: '100px',
-              marginLeft: '10px',
-            }}>
-            모두의 모임
-          </div>
-        </StLogo>
-        {isLogin ? (
-          <Menu />
-        ) : (
-          <Button
-            color="BLUE"
-            isOutline={true}
-            width={70}
-            height={30}
-            label="로그인"
-            handleButtonClick={() => navigate('/login')}
-          />
-        )}
+        <Link to="/">
+          <StLogo onClick={() => navigate('/')}>
+            <img
+              style={{ height: '30px' }}
+              src={logo}
+              alt="모모"
+            />
+            <div
+              style={{
+                fontFamily: 'seolleimcool-SemiBold',
+                minWidth: '100px',
+                marginLeft: '10px',
+              }}>
+              모두의 모임
+            </div>
+          </StLogo>
+          {isLogin ? (
+            <Menu />
+          ) : (
+            <Button
+              color="BLUE"
+              isOutline={true}
+              width={70}
+              height={30}
+              label="로그인"
+              handleButtonClick={() => navigate('/login')}
+            />
+          )}
+        </Link>
       </StContainer>
     </StHeaderWrapper>
   );
@@ -70,7 +72,7 @@ const StContainer = styled.div`
   align-items: center;
 `;
 
-const StLogo = styled.a`
+const StLogo = styled.div`
   cursor: pointer;
   display: flex;
   align-items: center;
