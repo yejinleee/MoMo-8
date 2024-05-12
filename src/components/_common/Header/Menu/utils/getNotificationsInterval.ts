@@ -27,12 +27,13 @@ const fetchNotifications = async (token: string) => {
         notificationResponse
           .filter((post) => 'post' in post)
           .map(({ seen, post }) => {return {seen:seen, postId:post as string}}),
-      ),
-    ];
-
+        ),
+      ];
     const postIdsPromise = modifiedDuplication.filter(({seen}) => !seen).map(({postId}) =>{
-      return getNotificationsPostTitle(postId)
-  });
+        return getNotificationsPostTitle(postId)
+    });
+    if (postIdsPromise.length ===0) return; // 알림을 전부 읽은 경우 postIdsPromise === []
+
     // 알림 반환값에는 게시글 제목이 없으므로 ID값을 이용해 제목을 가져와야됨
     const postTitles = await Promise.all(postIdsPromise);
 
@@ -103,7 +104,7 @@ const fetchNotifications = async (token: string) => {
 
     self.postMessage(modifiedNotifications.filter(({ isSeen }) => !isSeen));
   } catch (err) {
-    console.error('notification webWorker Error');
+    console.error('notification webWorker Error', err);
     self.postMessage([] as NotificationExtractType[]);
   }
 };
