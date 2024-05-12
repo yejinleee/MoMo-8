@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { memo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from '@/_redux/hooks';
 import { initUserInfo } from '@/_redux/slices/userSlice';
 import { postApiJWT } from '@/api/apis';
@@ -11,7 +11,6 @@ export interface PopupProfileProps {
 }
 
 export const PopupProfile = memo(({ setIsVisible }: PopupProfileProps) => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isLoading: isLoginLoading, user } = useSelector(
     (state) => state.userInfo,
@@ -23,7 +22,6 @@ export const PopupProfile = memo(({ setIsVisible }: PopupProfileProps) => {
 
   const handleRouteToProfile = () => {
     handleVisibility();
-    navigate(`/profile/${user?._id}`);
   };
 
   const handleOnLogout = () => {
@@ -33,7 +31,6 @@ export const PopupProfile = memo(({ setIsVisible }: PopupProfileProps) => {
     void dispatch(initUserInfo());
 
     localStorage.removeItem('JWT');
-    navigate('/');
 
     window.location.reload();
   };
@@ -43,25 +40,29 @@ export const PopupProfile = memo(({ setIsVisible }: PopupProfileProps) => {
       {isLoginLoading ? (
         <Spinner />
       ) : (
-        <StRouter onClick={handleRouteToProfile}>
-          <Profile
-            image={user?.image || ''}
-            fullName={user?.username || (user?.fullName as string)}
-            _id={user?._id}
-            status={'Profile'}
-            fontSize={16}
-          />
-        </StRouter>
+        <Link to={`/profile/${user?._id}`}>
+          <StRouter onClick={handleRouteToProfile}>
+            <Profile
+              image={user?.image || ''}
+              fullName={user?.username || (user?.fullName as string)}
+              _id={user?._id}
+              status={'Profile'}
+              fontSize={16}
+            />
+          </StRouter>
+        </Link>
       )}
-      <StRouter onClick={handleOnLogout}>
-        <StIconBox content={'"로그아웃"'}>
-          <Icon
-            name="log-out"
-            strokeWidth={2}
-            showBackground={false}
-          />
-        </StIconBox>
-      </StRouter>
+      <Link to={'/'}>
+        <StRouter onClick={handleOnLogout}>
+          <StIconBox content={'"로그아웃"'}>
+            <Icon
+              name="log-out"
+              strokeWidth={2}
+              showBackground={false}
+            />
+          </StIconBox>
+        </StRouter>
+      </Link>
     </StContainer>
   );
 });
@@ -78,7 +79,7 @@ const StTitle = styled.header`
   padding: 1rem 8px 6px 8px;
 `;
 
-const StRouter = styled.a`
+const StRouter = styled.div`
   display: block;
   border-top: 2px solid ${({ theme }) => theme.colors.grey.light};
   padding: 8px 12px 8px 12px;
