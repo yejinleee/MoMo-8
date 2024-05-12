@@ -55,7 +55,7 @@ export const LoginPage = () => {
       <StLoginContainer>
         <StDescriptionContainer>
           <StDescriptionLogo>
-            <img src={logo} />
+            <img src={logo} alt='모모' />
           </StDescriptionLogo>
           <StDescriptionText>
             <span style={{ fontSize: '32px' }}>모</span>두의{' '}
