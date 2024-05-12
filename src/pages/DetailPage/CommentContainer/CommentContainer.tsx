@@ -31,7 +31,7 @@ export const CommentContainer = ({ response }: CommentContainerProps) => {
   );
 };
 
-const StCommentContainer = styled.div`
+const StCommentContainer = styled.section`
   margin-top: 8px;
   padding: 16px;
 `;

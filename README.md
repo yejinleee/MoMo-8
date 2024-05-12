@@ -1,35 +1,22 @@
-# MoMo
+## 모두의 모임, 모모
 
 <p align="center">
   <br>
-  <img src="https://velog.velcdn.com/images/meow_tarae/post/1729b454-b93c-45ef-bc10-0df6ad70cd7c/image.png">
+  <img style="width:500px" src="https://velog.velcdn.com/images/meow_tarae/post/1729b454-b93c-45ef-bc10-0df6ad70cd7c/image.png">
   <br>
 </p>
 
 <br />
 
-## 팀원분들
+## 모모 소개
 
-|                                          팀장                                           |                                                                   팀원                                                                   |                                          팀원                                          |                                         팀원                                          |
-| :-----------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------: |
-| <img src="https://avatars.githubusercontent.com/u/81412212?v=4" width=400px alt="이예진"/> | <img src="https://avatars.githubusercontent.com/u/69450660?v=4" width=400px alt="김민수"/> | <img src="https://avatars.githubusercontent.com/u/85001878?v=4" width=400px alt="배건호"/> | <img src="https://avatars.githubusercontent.com/u/128919388?v=4" width=400px alt="원동건"> |
-|                             [이예진](https://github.com/yejinleee)                              |                                                    [김민수](https://github.com/km6293)                                                    |                           [배건호](https://github.com/meowTarae)                            |                            [원동건](https://github.com/wdgWon)                            |
+**모모**는 **모**두를 위한 **모**임 관리서비스 입니다. <br/>
+누구나 원하는 날짜에 원하는 주제로 모임을 만들고 참여할 수 있습니다. <br/>
+**모모**는 단순한 일정 조율을 넘어, 사람들이 취미, 학습, 네트워킹 등 다양한 활동을 위해 쉽고 빠르게 모일 수 있는 플랫폼을 제공합니다.
 
-
-<br>
-
-
-
-## 프로젝트 소개
-**모모 (MoMo)**
-
-모두가 함께하는 즐거운 만남, '모모'가 만들어갑니다. <br />
-'모모'는 '모두모여'의 줄임말로, 원하는 날짜에 원하는 주제로 모임을 만들고 참여할 수 있는 앱입니다. <br />
-'모모'는 단순한 일정 조율을 넘어, 사람들이 취미, 학습, 네트워킹 등 다양한 활동을 위해 쉽고 빠르게 모일 수 있는 플랫폼을 제공합니다.
-
-> 모각코 모임을 열고 싶은데 막상 슬랙에 보내기도 망설여지셨거나, 혹은 
-팀원들과의 오프라인 약속을 정할 때 날짜와 시간을 정하는데에 불편함은 없으셨나요? <br />
-모각코, 오프라인 만남, 온라인 게임모임 등 다양한 상황에서 모임 일정 관리가 필요한데, 부담없고 친근하게 사용할 수 있는 플랫폼이 있으면 좋겠다고 생각하였습니다.
+> 모각코 모임을 열고 싶은데 막상 슬랙에 보내기도 망설여지셨거나, 혹은
+> 팀원들과의 오프라인 약속을 정할 때 날짜와 시간을 정하는데에 불편함은 없으셨나요? <br />
+> 모각코, 오프라인 만남, 온라인 게임모임 등 다양한 상황에서 모임 일정 관리가 필요한데, 부담없고 친근하게 사용할 수 있는 플랫폼이 있으면 좋겠다고 생각하였습니다.
 
 <br />
 
@@ -100,18 +87,24 @@
 
 <br>
 
+## 스크린샷
 
+모모 접속하기 : https://momo8.vercel.app/
 
-## 화면 및 배포 주소
+<img width="1181" alt="메인페이지" src="https://github.com/prgrms-fe-devcourse/FEDC5_MoMo_inseong/assets/81412212/d5045cc3-ea66-417f-a4b4-ed6591470077">
+<br/>
+<img width="1181" alt="모임 만들기/수정하기" src="https://github.com/prgrms-fe-devcourse/FEDC5_MoMo_inseong/assets/81412212/4eefaa36-3711-4bc7-9873-f910e000d77a">
+<br/>
+<img width="1181" alt="모임 참여하기" src="https://github.com/prgrms-fe-devcourse/FEDC5_MoMo_inseong/assets/81412212/806792e5-2bf0-400f-9f07-d14707831a77">
+<br/>
 
-주소 : https://momo8.vercel.app/
+## 제작 기간
 
-<br>
+2023.12.22 ~ 2024.01.17
 
-<img width="1181" alt="스크린샷 2024-01-19 오전 9 13 55" src="https://github.com/prgrms-fe-devcourse/FEDC5_MoMo_inseong/assets/85001878/0f1de014-b40f-48bc-ab99-025426c3f070">
+2024.04 ~ 리팩토링
 
-
-<br>
+<br/>
 
 ## 기술 스택
 
@@ -123,16 +116,9 @@
 
 <br>
 
-## 📍 환경 변수
+## 팀원
 
-```sh
-VITE_API_END_POINT =
-```
-
-<br>
-
-## 제작 기간
-
-2023.12.22 ~ 2024.01.17
-
-
+|                                            팀장                                            |                                            팀원                                            |                                            팀원                                            |                                            팀원                                            |
+| :----------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------: |
+| <img src="https://avatars.githubusercontent.com/u/81412212?v=4" width=400px alt="이예진"/> | <img src="https://avatars.githubusercontent.com/u/69450660?v=4" width=400px alt="김민수"/> | <img src="https://avatars.githubusercontent.com/u/85001878?v=4" width=400px alt="배건호"/> | <img src="https://avatars.githubusercontent.com/u/128919388?v=4" width=400px alt="원동건"> |
+|                           [이예진](https://github.com/yejinleee)                           |                            [김민수](https://github.com/km6293)                             |                           [배건호](https://github.com/meowTarae)                           |                            [원동건](https://github.com/wdgWon)                             |

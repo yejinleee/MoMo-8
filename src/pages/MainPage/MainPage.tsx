@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import { MainArea } from './CardsArea/MainArea';
 import { OnlineUsers } from './SideBar/OnlineUsers';
 import { SearchBox } from './SideBar/SearchBox';
-import { StSideMarginWrapper } from '@/style/StSideMarginWrapper';
 import { useEffect } from 'react';
 import { getUserInfo } from '@/_redux/slices/userSlice';
 import { useDispatch } from '@/_redux/hooks';
@@ -14,28 +13,24 @@ export const MainPage = () => {
   }, []);  
 
   return (
-    <StSideMarginWrapper>
-      <StMainWrapper>
-        <StMainSide>
-          <OnlineUsers></OnlineUsers>
-          <SearchBox></SearchBox>
-        </StMainSide>
-        <StMainArea>
-          <MainArea />
-        </StMainArea>
-      </StMainWrapper>
-    </StSideMarginWrapper>
+    <StMainPageWrapper>
+      <StMainSide>
+        <OnlineUsers></OnlineUsers>
+        <SearchBox></SearchBox>
+      </StMainSide>
+      <MainArea />
+    </StMainPageWrapper>
   );
 };
 
-const StMainWrapper = styled.div`
+const StMainPageWrapper = styled.div`
   display: flex;
   padding: 20px 0px;
   box-sizing: border-box;
 `;
-const StMainSide = styled.div`
+const StMainSide = styled.aside`
   width: 300px;
-  height: calc(100vh - 100px);
+  // height: calc(100vh - 100px);
   max-height: 800px;
   overflow-y: scroll;
   -ms-overflow-style: none;
@@ -47,7 +42,4 @@ const StMainSide = styled.div`
     display: none;
   }
 `;
-const StMainArea = styled.div`
-  margin-left: 50px;
-  flex-grow: 1;
-`;
+

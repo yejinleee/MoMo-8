@@ -1,10 +1,8 @@
-import styled from '@emotion/styled';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CommentContainer } from './CommentContainer/CommentContainer';
 import { PostContainer } from './PostContainer';
 import { postIdContext } from './components/DetailPostContext';
 import { useGetPostDetail } from '@/hooks/query/usePost';
-import { StSideMarginWrapper } from '@/style/StSideMarginWrapper';
 
 export const DetailPage = () => {
   const { id } = useParams();
@@ -18,18 +16,11 @@ export const DetailPage = () => {
   }
 
   return (
-    <StSideMarginWrapper>
-      <StDetailContainer>
-        <postIdContext.Provider value={id || ''}>
-          <PostContainer />
-          <hr />
-          <CommentContainer response={response} />
-        </postIdContext.Provider>
-      </StDetailContainer>
-    </StSideMarginWrapper>
+    <postIdContext.Provider value={id || ''}>
+      <PostContainer />
+      <hr />
+      <CommentContainer response={response} />
+    </postIdContext.Provider>
   );
 };
 
-const StDetailContainer = styled.div`
-  padding: 32px;
-`;

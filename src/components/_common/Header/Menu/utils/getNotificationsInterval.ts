@@ -26,14 +26,13 @@ const fetchNotifications = async (token: string) => {
       ...new Set(
         notificationResponse
           .filter((post) => 'post' in post)
-          .map(({ post }) => post as string),
+          .map(({ seen, post }) => {return {seen:seen, postId:post as string}}),
       ),
     ];
 
-    const postIdsPromise = modifiedDuplication.map((postId) =>
-      getNotificationsPostTitle(postId),
-    );
-
+    const postIdsPromise = modifiedDuplication.filter(({seen}) => !seen).map(({postId}) =>{
+      return getNotificationsPostTitle(postId)
+  });
     // 알림 반환값에는 게시글 제목이 없으므로 ID값을 이용해 제목을 가져와야됨
     const postTitles = await Promise.all(postIdsPromise);
 

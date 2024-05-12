@@ -9,7 +9,6 @@ import { useSelector } from '@/_redux/hooks';
 import { IUser } from '@/api/_types/apiModels';
 import { getApiJWT, postApi, putApiJWT } from '@/api/apis';
 import useAxios from '@/api/useAxios';
-import { StSideMarginWrapper } from '@/style/StSideMarginWrapper';
 import { theme } from '@/style/theme';
 import { Button, Icon, InputCompound, Profile } from '@common/index';
 
@@ -84,7 +83,7 @@ export const EditPasswordPage = () => {
   }, [userInfo]);
 
   return (
-    <StSideMarginWrapper>
+    <>
       <StProfileActionsContainer>
         <Icon
           name="arrow-left"
@@ -149,7 +148,7 @@ export const EditPasswordPage = () => {
           {confirmError}
         </StInputForm>
       </StProfileForm>
-    </StSideMarginWrapper>
+    </>
   );
 };
 

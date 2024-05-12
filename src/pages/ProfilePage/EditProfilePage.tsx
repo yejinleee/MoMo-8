@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { validateFullName } from '../SignupPage/validation';
 import { useSelector } from '@/_redux/hooks';
 import { postApiJWT, putApiJWT } from '@/api/apis';
-import { StSideMarginWrapper } from '@/style/StSideMarginWrapper';
 import { theme } from '@/style/theme';
 import InputUpload from '@common/Input/InputUpload';
 import { Button, Icon, InputCompound, Profile } from '@common/index';
@@ -100,7 +99,7 @@ export const EditProfilePage = () => {
   };
 
   return (
-    <StSideMarginWrapper>
+    <>
       {isModalOpen && (
         <StModalBackdrop onClick={() => setModalOpen(false)}>
           <StModalContent onClick={(e) => e.stopPropagation()}>
@@ -173,7 +172,7 @@ export const EditProfilePage = () => {
           {usernameError}
         </StInputForm>
       </StProfileForm>
-    </StSideMarginWrapper>
+    </>
   );
 };
 
