@@ -17,7 +17,7 @@ export const Header = () => {
           <img
             style={{ height: '30px' }}
             src={logo}
-            alt='모모'
+            alt="모모"
           />
           <div
             style={{
