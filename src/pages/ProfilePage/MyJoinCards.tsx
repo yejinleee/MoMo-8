@@ -14,7 +14,6 @@ export const MyJoinCards = () => {
   const response = data.data
   
   useEffect(() => {
-    console.log("RR",response)
     setAllJoinedPosts([] as IPost[]);
     if (!userInfo) return;
     if (!isError && !isFetching && response) {
@@ -26,14 +25,12 @@ export const MyJoinCards = () => {
           ) {
             void getPostData(res.post).then((resPost) => {
               setAllJoinedPosts((prev) => [...prev, resPost]);
-              console.log("!",resPost)
             });
           }
         }
       });
     }
   }, [userInfo]);
-  console.log(isFetched, allJoinedPosts)
   return (
     <>
       <StCardsWrapper>
